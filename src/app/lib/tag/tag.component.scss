@@ -1,0 +1,21 @@
+.tag {
+  padding: 3px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+
+  &.tag--green {
+    background-color: #CAFFBF;
+    color: #2E8B57;
+  }
+
+  &.tag--red {
+    background-color: #F44336;
+    color: #5A1F1F;
+  }
+
+  &.tag--yellow {
+    background-color: #FFEB3B;
+    color: #5A5A1F;
+  }
+}
