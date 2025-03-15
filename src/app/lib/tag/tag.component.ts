@@ -5,7 +5,7 @@ import { Tag } from './interfaces';
   selector: 'app-tag',
   imports: [],
   templateUrl: './tag.component.html',
-  styleUrl: './tag.component.scss'
+  styleUrl: './tag.component.scss',
 })
 export class TagComponent {
   public tag = input.required<Tag>();

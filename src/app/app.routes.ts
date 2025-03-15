@@ -9,5 +9,5 @@ export const routes: Routes = [
   {
     path: 'payments',
     loadComponent: () => import('./payments/payments-list/payments-list.component').then(m => m.PaymentsListComponent),
-  }
+  },
 ];

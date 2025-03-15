@@ -1,3 +1,7 @@
-@for (payment of fakePayments; track payment.id) {
-  <app-payment-item [payment]="payment"></app-payment-item>
+@if (_paymentsStore.isLoading()) {
+  loading...
+} @else {
+  @for (payment of _paymentsStore.payments(); track payment.id) {
+    <app-payment-item [payment]="payment"></app-payment-item>
+  }
 }
