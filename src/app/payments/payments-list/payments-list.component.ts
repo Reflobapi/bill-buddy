@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { PaymentsStore } from '../store/payments.store';
 import { PaymentItemComponent } from '../payment-item/payment-item.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-payments-list',
@@ -9,8 +10,16 @@ import { PaymentItemComponent } from '../payment-item/payment-item.component';
   providers: [PaymentsStore],
   imports: [
     PaymentItemComponent,
+
   ],
 })
 export class PaymentsListComponent {
+  private readonly _router = inject(Router);
+  private readonly _activatedRoute = inject(ActivatedRoute);
+
   protected readonly _paymentsStore = inject(PaymentsStore);
+
+  protected _navigateToPaymentDetails(paymentId: number): void {
+    this._router.navigate([paymentId], { relativeTo: this._activatedRoute });
+  }
 }

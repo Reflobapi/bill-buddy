@@ -1,0 +1,12 @@
+<div class="list-item">
+  <div class="title">
+    <div class="title__value">
+      <span>{{ paymentLine().value / 100 | currency: 'EUR' }}</span>
+    </div>
+  </div>
+
+  <app-tag class="tag"
+           [tag]="_tag()"></app-tag>
+
+  <mat-icon class="icon">chevron_right</mat-icon>
+</div>

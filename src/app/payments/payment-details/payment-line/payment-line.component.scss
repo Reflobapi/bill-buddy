@@ -1,0 +1,27 @@
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+
+  padding: 8px 16px;
+
+  .title {
+    flex: 2;
+
+    &__line {
+      font-size: 1.4em;
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+
+    &__subtitle {
+      font-size: 0.9em;
+      font-weight: 300;
+    }
+  }
+
+  .tag {
+    flex: 1;
+  }
+}

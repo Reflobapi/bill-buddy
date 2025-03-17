@@ -1,5 +1,6 @@
 export enum TagType {
   Green = 'green',
+  Grey = 'grey',
   Yellow = 'yellow',
   Red = 'red',
 }

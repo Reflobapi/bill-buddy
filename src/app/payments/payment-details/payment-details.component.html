@@ -1,0 +1,4 @@
+@for (paymentLine of _paymentLines(); track paymentLine.id) {
+  <app-payment-line [paymentLine]="paymentLine"></app-payment-line>
+}
+

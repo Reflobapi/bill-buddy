@@ -2,6 +2,7 @@
   loading...
 } @else {
   @for (payment of _paymentsStore.payments(); track payment.id) {
-    <app-payment-item [payment]="payment"></app-payment-item>
+    <app-payment-item (click)="_navigateToPaymentDetails(payment.id)"
+                      [payment]="payment"></app-payment-item>
   }
 }
