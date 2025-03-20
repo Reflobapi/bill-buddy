@@ -6,22 +6,33 @@
 
   padding: 8px 16px;
 
-  .title {
-    flex: 2;
+  .left {
+    flex: 4;
 
-    &__line {
-      font-size: 1.4em;
-      font-weight: 400;
+    &__name {
+      font-weight: 500;
       margin-bottom: 4px;
     }
 
-    &__subtitle {
+    &__unit-price {
       font-size: 0.9em;
       font-weight: 300;
     }
   }
 
   .tag {
+    &__sub-category {
+      flex: 3;
+    }
+
+    &__number-of-items {
+      flex: 1;
+    }
+  }
+
+  .value {
     flex: 1;
+    font-weight: 500;
+    text-align: end;
   }
 }

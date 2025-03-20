@@ -1,12 +1,17 @@
 <div class="list-item">
-  <div class="title">
-    <div class="title__value">
-      <span>{{ paymentLine().value / 100 | currency: 'EUR' }}</span>
+  <div class="left">
+    <div class="left__name">
+      <span>{{ paymentLine().name }}</span>
+    </div>
+    <div class="left__unit-price">
+      <span>{{ paymentLine().value / 100 / paymentLine().numberOfItems | currency: 'EUR' }}</span>
     </div>
   </div>
 
-  <app-tag class="tag"
-           [tag]="_tag()"></app-tag>
+  <app-tag class="tag__number-of-items"
+           [tag]="_numberOfItemsTag()"></app-tag>
 
-  <mat-icon class="icon">chevron_right</mat-icon>
+  <div class="value">
+    <span>{{ paymentLine().value / 100 | currency: 'EUR' }}</span>
+  </div>
 </div>

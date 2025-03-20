@@ -2,6 +2,7 @@ export enum TagType {
   Green = 'green',
   Grey = 'grey',
   Yellow = 'yellow',
+  Blue = 'blue',
   Red = 'red',
 }
 
