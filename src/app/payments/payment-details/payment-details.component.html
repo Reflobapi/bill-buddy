@@ -1,3 +1,27 @@
+<div class="title">
+  <span>Détails du paiement</span>
+</div>
+
+
+@for (groupedPaymentLine of _groupedPaymentLines(); track groupedPaymentLine.subCategoryId) {
+  <div class="progress-bar-block">
+    <div class="sub-category__first-line">
+      <span class="name"> {{ groupedPaymentLine.name }}</span>
+      <span class="value"> {{ groupedPaymentLine.sumValues / 100 | currency }}</span>
+    </div>
+
+    <div class="sub-category__second-line">
+      <span> {{ groupedPaymentLine.sumValues / _totalValue() | percent }}</span>
+    </div>
+
+    <app-progress-bar [value]="groupedPaymentLine.sumValues / _totalValue() * 100"></app-progress-bar>
+  </div>
+}
+
+<div class="title">
+  <span>Détails ligne à ligne</span>
+</div>
+
 @for (paymentLine of _paymentLines(); track paymentLine.id) {
   <app-payment-line [paymentLine]="paymentLine"></app-payment-line>
 }
