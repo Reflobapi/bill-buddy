@@ -1,13 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
+
+@import 'app/lib/styles/colors';
+@import 'app/lib/styles/texts';
 
 html, body { height: 100%; }
 body { margin: 6px 12px;   font-family: "Inter", "Poppins", "Manrope", sans-serif;}
 
 :root {
   @include mat.progress-bar-overrides((
-    active-indicator-color: #262626,
-    track-color: #ececec,
+    active-indicator-color: var(--primary-black),
+    track-color: var(--secondary-grey),
     active-indicator-height: 8px,
     track-height: 8px,
     track-shape: 50px,

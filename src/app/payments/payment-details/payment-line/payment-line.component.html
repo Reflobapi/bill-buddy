@@ -1,17 +1,18 @@
 <div class="list-item">
   <div class="left">
-    <div class="left__name">
-      <span>{{ paymentLine().name }}</span>
-    </div>
-    <div class="left__unit-price">
-      <span>{{ paymentLine().value / 100 / paymentLine().numberOfItems | currency: 'EUR' }}</span>
-    </div>
+    <h2>{{ paymentLine().name }}</h2>
+
+      <app-financial-value class="sub-title"
+                           [value]="paymentLine().value / paymentLine().numberOfItems"
+                           [bold]="false"
+                           [color]="'grey'"></app-financial-value>
   </div>
 
   <app-tag class="tag__number-of-items"
            [tag]="_numberOfItemsTag()"></app-tag>
 
   <div class="value">
-    <span>{{ paymentLine().value / 100 | currency: 'EUR' }}</span>
+    <app-financial-value [value]="paymentLine().value"
+                         [bold]="false"></app-financial-value>
   </div>
 </div>

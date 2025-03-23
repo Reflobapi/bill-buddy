@@ -14,11 +14,17 @@ export class PaymentsService {
     return this._httpClient.get<GetPaymentResponse[]>(this._getBaseApiUrlForPayments());
   }
 
-  public getPaymentLines(paymentId: number | null): Observable<readonly GetPaymentLineResponse[]> {
-    return this._httpClient.get<readonly GetPaymentLineResponse[]>(`${this._getBaseApiUrlForPayments()}/${paymentId}/payment-lines`);
+  public getPayment(paymentId: number | null): Observable<GetPaymentResponse> {
+    return this._httpClient.get<GetPaymentResponse>(this._getBaseApiUrlForPayments(paymentId));
   }
 
-  private _getBaseApiUrlForPayments() {
-    return 'http://localhost:3003/payments';
+  public getPaymentLines(paymentId: number | null): Observable<readonly GetPaymentLineResponse[]> {
+    return this._httpClient.get<readonly GetPaymentLineResponse[]>(`${this._getBaseApiUrlForPayments(paymentId)}/payment-lines`);
+  }
+
+  private _getBaseApiUrlForPayments(paymentId?: number | null): string {
+    const baseUrl: string = 'http://localhost:3003/payments';
+
+    return paymentId ? `${baseUrl}/${paymentId}` : baseUrl;
   }
 }

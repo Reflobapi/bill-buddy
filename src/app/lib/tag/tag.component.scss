@@ -5,27 +5,27 @@
   font-weight: 500;
 
   &.tag--green {
-    background-color: #CAFFBF;
-    color: #2E8B57;
+    background-color: var(--secondary-green);
+    color: var(--primary-green);
   }
 
   &.tag--red {
-    background-color: #F44336;
-    color: #5A1F1F;
+    background-color: var(--secondary-red);
+    color: var(--primary-red);
   }
 
   &.tag--yellow {
-    background-color: #FFEB3B;
-    color: #5A5A1F;
+    background-color: var(--secondary-yellow);
+    color: var(--primary-yellow);
   }
 
   &.tag--grey {
-    background-color: #E0E0E0;
-    color: #5A5A5A;
+    background-color: var(--secondary-grey);
+    color: var(--primary-grey);
   }
 
   &.tag--blue {
-    background-color: #B3E0FF;
-    color: #005F9E;
+    background-color: var(--secondary-blue);
+    color: var(--primary-blue);
   }
 }

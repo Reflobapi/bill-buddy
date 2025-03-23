@@ -1,10 +1,12 @@
 import { Component, computed, inject } from '@angular/core';
-import { PaymentLinesStore } from '../store/payment-lines.store';
+import { PaymentDetailsStore } from '../store/payment-details.store';
 import { PaymentLineComponent } from './payment-line/payment-line.component';
 import { GroupedPaymentLines } from './interfaces';
 import { ProgressBarComponent } from '../../lib/progress-bar/progress-bar.component';
 import { subCategoryIdTranslationsMap } from '../../trads/categories-trads';
-import { CurrencyPipe, PercentPipe } from '@angular/common';
+import { DatePipe, PercentPipe } from '@angular/common';
+import { FinancialValueComponent } from '../../lib/financial-value/financial-value.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-payment-details',
@@ -12,20 +14,18 @@ import { CurrencyPipe, PercentPipe } from '@angular/common';
     PaymentLineComponent,
     ProgressBarComponent,
     PercentPipe,
-    CurrencyPipe,
-
+    FinancialValueComponent,
+    SharedModule,
+    DatePipe,
   ],
   templateUrl: './payment-details.component.html',
   styleUrl: './payment-details.component.scss',
 })
 export class PaymentDetailsComponent {
-  private readonly _paymentLinesStore = inject(PaymentLinesStore);
+  private readonly _paymentDetailsStore = inject(PaymentDetailsStore);
 
-  protected readonly _paymentLines = this._paymentLinesStore.paymentLines;
-
-  protected readonly _totalValue = computed<number>(() => {
-    return (this._paymentLines() || []).reduce((acc, paymentLine) => acc + paymentLine.value, 0);
-  });
+  protected readonly _paymentLines = this._paymentDetailsStore.paymentLines;
+  protected readonly _payment = this._paymentDetailsStore.payment;
 
   protected readonly _groupedPaymentLines = computed<GroupedPaymentLines[]>(() => {
     const groupedPaymentLines: GroupedPaymentLines[] = [];

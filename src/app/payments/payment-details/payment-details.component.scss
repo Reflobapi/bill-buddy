@@ -1,8 +1,4 @@
-.title {
-  font-size: 25px;
-  font-weight: 600;
-  padding: 12px 0;
-}
+@use "../../lib/styles/texts" as texts;
 
 .progress-bar-block {
   padding: 8px 0;
@@ -25,10 +21,11 @@
     display: flex;
     justify-content: flex-end;
     padding: 4px 0;
-
-
-    font-weight: 500;
-    font-size: 0.9em;
-    color: #939393
   }
+}
+
+.total {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
 }

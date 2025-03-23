@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { PaymentsStore } from '../store/payments.store';
 import { PaymentItemComponent } from '../payment-item/payment-item.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-payments-list',
@@ -10,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   providers: [PaymentsStore],
   imports: [
     PaymentItemComponent,
-
+    SharedModule,
   ],
 })
 export class PaymentsListComponent {

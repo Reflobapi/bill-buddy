@@ -9,14 +9,8 @@
   .left {
     flex: 4;
 
-    &__name {
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-
-    &__unit-price {
+    .unit_price {
       font-size: 0.9em;
-      font-weight: 300;
     }
   }
 
@@ -32,7 +26,6 @@
 
   .value {
     flex: 1;
-    font-weight: 500;
     text-align: end;
   }
 }
