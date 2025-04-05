@@ -22,6 +22,10 @@ export class PaymentsService {
     return this._httpClient.get<readonly GetPaymentLineResponse[]>(`${this._getBaseApiUrlForPayments(paymentId)}/payment-lines`);
   }
 
+  public createPayment(base64File: string | null): Observable<GetPaymentResponse> {
+    return this._httpClient.post<GetPaymentResponse>(`${this._getBaseApiUrlForPayments()}`, { base64File });
+  }
+
   private _getBaseApiUrlForPayments(paymentId?: number | null): string {
     const baseUrl: string = 'http://localhost:3003/payments';
 

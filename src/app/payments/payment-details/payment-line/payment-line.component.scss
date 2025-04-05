@@ -7,20 +7,10 @@
   padding: 8px 0;
 
   .left {
-    flex: 4;
+    flex: 1;
 
     .unit_price {
       font-size: 0.9em;
-    }
-  }
-
-  .tag {
-    &__sub-category {
-      flex: 3;
-    }
-
-    &__number-of-items {
-      flex: 1;
     }
   }
 

@@ -1,0 +1,11 @@
+<div>
+  <mat-spinner></mat-spinner>
+
+  <button [class.floating]="floating()"
+          (click)="_click($event)"
+          [disabled]="disabled()"
+          mat-fab
+          extended>
+    {{ text() }}
+  </button>
+</div>

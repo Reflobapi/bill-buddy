@@ -7,4 +7,15 @@
     <app-payment-item (click)="_navigateToPaymentDetails(payment.id)"
                       [payment]="payment"></app-payment-item>
   }
+
+  <input type="file"
+         #fileInput
+         (change)="_onFileSelected($event)"
+         accept="image/*,application/pdf"
+  />
+
+  <app-button [text]="'Ajouter un paiement'"
+              [floating]="true"
+              [disabled]="_paymentsStore.isUploading()"
+              (click)="_triggerFileInput()"></app-button>
 }

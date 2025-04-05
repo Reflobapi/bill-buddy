@@ -8,11 +8,13 @@
                            [color]="'grey'"></app-financial-value>
   </div>
 
-  <app-tag class="tag__number-of-items"
-           [tag]="_numberOfItemsTag()"></app-tag>
-
   <div class="value">
-    <app-financial-value [value]="paymentLine().value"
-                         [bold]="false"></app-financial-value>
+    <div>
+      <app-financial-value [value]="paymentLine().value"
+                           [bold]="false"></app-financial-value>
+    </div>
+
+    <app-tag class="tag__number-of-items"
+             [tag]="_numberOfItemsTag()"></app-tag>
   </div>
 </div>
