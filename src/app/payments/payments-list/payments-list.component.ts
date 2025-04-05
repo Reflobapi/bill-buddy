@@ -1,9 +1,9 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
-import { PaymentsStore } from '../store/payments.store';
-import { PaymentItemComponent } from '../payment-item/payment-item.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SharedModule } from '../../shared/shared.module';
-import { ButtonComponent } from '../../lib/button/button.component';
+import {Component, ElementRef, inject, ViewChild} from '@angular/core';
+import {PaymentsStore} from '../store/payments.store';
+import {PaymentItemComponent} from '../payment-item/payment-item.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SharedModule} from '../../shared/shared.module';
+import {ButtonComponent} from '../../lib/button/button.component';
 
 @Component({
   selector: 'app-payments-list',
@@ -36,7 +36,10 @@ export class PaymentsListComponent {
     const file = event.target.files[0];
     if (file) {
       this._convertFileToBase64(file).then(base64String => {
-        this._paymentsStore.base64File = base64String;
+        this._paymentsStore.fileToUpload = {
+          base64: base64String,
+          filename: file.name,
+        };
       });
     }
   }

@@ -1,19 +1,25 @@
-import { GetPaymentResponse } from '../../interfaces/payment.interfaces';
-import { effect, inject, Injectable, resource } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
-import { PaymentsService } from '../payments.service';
-import { firstValueFrom } from 'rxjs';
-import { patchState, signalState } from '@ngrx/signals';
+import {GetPaymentResponse} from '../../interfaces/payment.interfaces';
+import {effect, inject, Injectable, resource} from '@angular/core';
+import {AuthService} from '../../auth/auth.service';
+import {PaymentsService} from '../payments.service';
+import {firstValueFrom} from 'rxjs';
+import {patchState, signalState} from '@ngrx/signals';
 
 interface PaymentsState {
-  base64File: string | null;
+  fileToUpload: {
+    base64: string | null,
+    filename: string | null,
+  };
   payments: GetPaymentResponse[];
   loading: boolean;
   uploading: boolean;
 }
 
 const initialState: PaymentsState = {
-  base64File: null,
+  fileToUpload: {
+    base64: null,
+    filename: null,
+  },
   payments: [],
   loading: false,
   uploading: false,
@@ -41,8 +47,13 @@ export class PaymentsStore {
     return this._newPaymentResource.value;
   }
 
-  public set base64File(base64File: string | null) {
-    patchState(this._state, { base64File });
+  public set fileToUpload(options: { base64: string | null, filename: string | null }) {
+    patchState(this._state,  {
+      fileToUpload: {
+        base64: options.base64,
+        filename: options.filename,
+      },
+    });
   }
 
   private readonly _authService = inject(AuthService);
@@ -54,18 +65,16 @@ export class PaymentsStore {
   });
 
   protected _newPaymentResource = resource({
-    request: () => ({ base64File: this._state.base64File() }),
+    request: () => ({ fileToUpload: this._state.fileToUpload() }),
     loader: (resourceLoader) =>
-      firstValueFrom(this._paymentsService.createPayment(resourceLoader.request.base64File)),
+      firstValueFrom(this._paymentsService.createPayment(resourceLoader.request.fileToUpload)),
   });
 
   constructor() {
     effect(() => {
       patchState(this._state, { loading: this._paymentsResource.isLoading() });
       patchState(this._state, { uploading: this._newPaymentResource.isLoading() });
-      patchState(this._state, { payments: this._paymentsResource.value() });
-      // @ts-ignore
-      patchState(this._state, { payments: [...this._state.payments(), this._newPaymentResource.value()] });
+      patchState(this._state, { payments: this._paymentsResource.value() ?? [] });
     });
   }
 }
