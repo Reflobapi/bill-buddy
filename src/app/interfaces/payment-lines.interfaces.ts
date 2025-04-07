@@ -4,5 +4,4 @@ export interface GetPaymentLineResponse {
   subCategoryId: number,
   paymentId: number,
   value: number,
-  numberOfItems: number
 }
