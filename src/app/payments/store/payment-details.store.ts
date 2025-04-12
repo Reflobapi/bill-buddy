@@ -9,15 +9,15 @@ import { PaymentLinesService } from '../payment-lines.service';
 
 interface PaymentDetailsState {
   payment: GetPaymentResponse | null;
-  paymentLines: readonly GetPaymentLineResponse[] | null;
-  paymentLinesOverviews: readonly GetPaymentLinesOverviewResponse[] | null;
+  paymentLines: readonly GetPaymentLineResponse[];
+  paymentLinesOverviews: readonly GetPaymentLinesOverviewResponse[];
   loading: boolean;
 }
 
 const initialState: PaymentDetailsState = {
   payment: null,
-  paymentLines: null,
-  paymentLinesOverviews: null,
+  paymentLines: [],
+  paymentLinesOverviews: [],
   loading: false,
 };
 
