@@ -1,8 +1,7 @@
-import {inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {GetPaymentResponse} from '../interfaces/payment.interfaces';
-import {GetPaymentLineResponse} from '../interfaces/payment-lines.interfaces';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { GetPaymentResponse } from '../interfaces/payment.interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +15,6 @@ export class PaymentsService {
 
   public getPayment(paymentId: number | null): Observable<GetPaymentResponse> {
     return this._httpClient.get<GetPaymentResponse>(this._getBaseApiUrlForPayments(paymentId));
-  }
-
-  public getPaymentLines(paymentId: number | null): Observable<readonly GetPaymentLineResponse[]> {
-    return this._httpClient.get<readonly GetPaymentLineResponse[]>(`${this._getBaseApiUrlForPayments(paymentId)}/payment-lines`);
   }
 
   public createPayment(options: {

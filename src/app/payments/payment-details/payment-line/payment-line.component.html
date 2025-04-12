@@ -1,20 +1,10 @@
 <div class="list-item">
   <div class="left">
     <h2>{{ paymentLine().name }}</h2>
-
-      <app-financial-value class="sub-title"
-                           [value]="paymentLine().value"
-                           [bold]="false"
-                           [color]="'grey'"></app-financial-value>
   </div>
 
   <div class="value">
-    <div>
-      <app-financial-value [value]="paymentLine().value"
-                           [bold]="false"></app-financial-value>
-    </div>
-
-    <app-tag class="tag__number-of-items"
-             [tag]="_numberOfItemsTag()"></app-tag>
+    <app-financial-value [value]="paymentLine().value"
+                         [bold]="false"></app-financial-value>
   </div>
 </div>

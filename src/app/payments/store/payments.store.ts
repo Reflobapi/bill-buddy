@@ -1,9 +1,11 @@
-import {GetPaymentResponse} from '../../interfaces/payment.interfaces';
-import {effect, inject, Injectable, resource} from '@angular/core';
-import {AuthService} from '../../auth/auth.service';
-import {PaymentsService} from '../payments.service';
-import {firstValueFrom} from 'rxjs';
-import {patchState, signalState} from '@ngrx/signals';
+import { GetPaymentResponse } from '../../interfaces/payment.interfaces';
+import { effect, inject, Injectable, resource } from '@angular/core';
+import { AuthService } from '../../auth/auth.service';
+import { PaymentsService } from '../payments.service';
+import { firstValueFrom } from 'rxjs';
+import { patchState, signalState } from '@ngrx/signals';
+import { GetPaymentLinesOverviewResponse } from '../../interfaces/payment-lines.interfaces';
+import { PaymentLinesService } from '../payment-lines.service';
 
 interface PaymentsState {
   fileToUpload: {
@@ -11,6 +13,7 @@ interface PaymentsState {
     filename: string | null,
   };
   payments: GetPaymentResponse[];
+  paymentLinesOverviews: readonly GetPaymentLinesOverviewResponse[];
   loading: boolean;
   uploading: boolean;
 }
@@ -21,6 +24,7 @@ const initialState: PaymentsState = {
     filename: null,
   },
   payments: [],
+  paymentLinesOverviews: [],
   loading: false,
   uploading: false,
 };
@@ -43,8 +47,8 @@ export class PaymentsStore {
     return this._state.payments;
   }
 
-  public get newPaymentValue() {
-    return this._newPaymentResource.value;
+  public get paymentLinesOverviews() {
+    return this._state.paymentLinesOverviews;
   }
 
   public set fileToUpload(options: { base64: string | null, filename: string | null }) {
@@ -58,10 +62,16 @@ export class PaymentsStore {
 
   private readonly _authService = inject(AuthService);
   private readonly _paymentsService = inject(PaymentsService);
+  private readonly _paymentLinesService = inject(PaymentLinesService);
 
   protected readonly _paymentsResource = resource({
     request: () => ({ loggedInUserId: this._authService.loggedInUser(), newPaymentValue: this._newPaymentResource.value() }),
     loader: () => firstValueFrom(this._paymentsService.getPayments()),
+  });
+
+  protected readonly _paymentLinesOverviewsResource = resource({
+    request: () => ({ loggedInUserId: this._authService.loggedInUser(), newPaymentValue: this._newPaymentResource.value() }),
+    loader: () => firstValueFrom(this._paymentLinesService.getPaymentLinesOverviews()),
   });
 
   protected _newPaymentResource = resource({
@@ -75,6 +85,7 @@ export class PaymentsStore {
       patchState(this._state, { loading: this._paymentsResource.isLoading() });
       patchState(this._state, { uploading: this._newPaymentResource.isLoading() });
       patchState(this._state, { payments: this._paymentsResource.value() ?? [] });
+      patchState(this._state, { paymentLinesOverviews: this._paymentLinesOverviewsResource.value() ?? [] });
     });
   }
 }

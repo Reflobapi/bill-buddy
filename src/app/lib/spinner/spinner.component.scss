@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+
+.black {
+  @include mat.progress-spinner-overrides((
+    active-indicator-color: var(--primary-black),
+  ));
+}
+
+.white {
+  @include mat.progress-spinner-overrides((
+    active-indicator-color: var(--primary-white),
+  ));
+}
+
+.grey {
+  @include mat.progress-spinner-overrides((
+    active-indicator-color: var(--primary-grey),
+  ));
+}

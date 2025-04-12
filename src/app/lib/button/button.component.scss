@@ -23,4 +23,11 @@
   button:disabled {
     background-color: var(--primary-grey);
   }
+
+  .button-content {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
 }

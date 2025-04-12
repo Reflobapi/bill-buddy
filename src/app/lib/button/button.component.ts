@@ -1,13 +1,11 @@
 import { Component, EventEmitter, input, Output } from '@angular/core';
 import { ButtonType } from './interfaces';
 import { MatFabButton } from '@angular/material/button';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-button',
   imports: [
     MatFabButton,
-    MatProgressSpinner,
   ],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',

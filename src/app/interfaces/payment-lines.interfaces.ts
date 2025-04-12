@@ -5,3 +5,9 @@ export interface GetPaymentLineResponse {
   paymentId: number,
   value: number,
 }
+
+export interface GetPaymentLinesOverviewResponse {
+  subCategoryId: number;
+  value: number;
+  percentage: number;
+}

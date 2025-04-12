@@ -1,11 +1,19 @@
 <h1>Tous les paiements</h1>
 
+<app-payment-lines-overviews [paymentLinesOverviews]="_paymentsStore.paymentLinesOverviews()"></app-payment-lines-overviews>
+
 @if (_paymentsStore.isLoading()) {
-  loading...
+  <app-spinner></app-spinner>
 } @else {
-  @for (payment of _paymentsStore.payments(); track payment.id) {
-    <app-payment-item (click)="_navigateToPaymentDetails(payment.id)"
-                      [payment]="payment"></app-payment-item>
+  @if (!_paymentsStore.payments().length) {
+    <div>
+      <span class="sub-title">Aucun paiement trouvé.</span>
+    </div>
+  } @else {
+    @for (payment of _paymentsStore.payments(); track payment.id) {
+      <app-payment-item (click)="_navigateToPaymentDetails(payment.id)"
+                        [payment]="payment"></app-payment-item>
+    }
   }
 
   <input type="file"
@@ -17,5 +25,6 @@
   <app-button [text]="'Ajouter un paiement'"
               [floating]="true"
               [disabled]="_paymentsStore.isUploading()"
+              [loading]="_paymentsStore.isUploading()"
               (click)="_triggerFileInput()"></app-button>
 }

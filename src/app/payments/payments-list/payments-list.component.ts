@@ -1,9 +1,11 @@
-import {Component, ElementRef, inject, ViewChild} from '@angular/core';
-import {PaymentsStore} from '../store/payments.store';
-import {PaymentItemComponent} from '../payment-item/payment-item.component';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SharedModule} from '../../shared/shared.module';
-import {ButtonComponent} from '../../lib/button/button.component';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { PaymentsStore } from '../store/payments.store';
+import { PaymentItemComponent } from '../payment-item/payment-item.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SharedModule } from '../../shared/shared.module';
+import { ButtonComponent } from '../../lib/button/button.component';
+import { SpinnerComponent } from '../../lib/spinner/spinner.component';
+import { PaymentLinesOverviewComponent } from '../payment-lines-overviews/payment-lines-overview.component';
 
 @Component({
   selector: 'app-payments-list',
@@ -14,6 +16,8 @@ import {ButtonComponent} from '../../lib/button/button.component';
     PaymentItemComponent,
     SharedModule,
     ButtonComponent,
+    SpinnerComponent,
+    PaymentLinesOverviewComponent,
   ],
 })
 export class PaymentsListComponent {

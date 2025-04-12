@@ -2,25 +2,12 @@
 
 <span class="sub-title">{{ _payment()?.payee }}, le {{ _payment()?.date | date : 'dd/MM/yyyy' }}</span>
 
-@for (groupedPaymentLine of _groupedPaymentLines(); track groupedPaymentLine.subCategoryId) {
-  <div class="progress-bar-block">
-    <div class="sub-category__first-line">
-      <h2 class="name"> {{ groupedPaymentLine.name }}</h2>
-      <app-financial-value [value]="groupedPaymentLine.sumValues"></app-financial-value>
-    </div>
-
-    <div class="sub-category__second-line sub-title">
-      <span> {{ groupedPaymentLine.sumValues / (_payment()?.paymentLinesSum || 0) | percent }}</span>
-    </div>
-
-    <app-progress-bar [value]="groupedPaymentLine.sumValues / (_payment()?.paymentLinesSum || 0) * 100"></app-progress-bar>
-  </div>
-}
-
 <div class="total">
   <h2>Total</h2>
   <app-financial-value [value]="_payment()?.paymentLinesSum"></app-financial-value>
 </div>
+
+<app-payment-lines-overviews [paymentLinesOverviews]="_paymentLinesOverviews()"></app-payment-lines-overviews>
 
 <h1>Détails ligne à ligne</h1>
 
