@@ -7,7 +7,8 @@
   <app-financial-value [value]="_payment()?.paymentLinesSum"></app-financial-value>
 </div>
 
-<app-payment-lines-overviews [paymentLinesOverviews]="_paymentLinesOverviews()"></app-payment-lines-overviews>
+<app-payment-lines-overviews [loading]="_paymentLinesOverviewsLoading()"
+                             [paymentLinesOverviews]="_paymentLinesOverviews()"></app-payment-lines-overviews>
 
 <h1>Détails ligne à ligne</h1>
 

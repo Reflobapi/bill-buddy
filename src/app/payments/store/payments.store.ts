@@ -14,7 +14,8 @@ interface PaymentsState {
   };
   payments: GetPaymentResponse[];
   paymentLinesOverviews: readonly GetPaymentLinesOverviewResponse[];
-  loading: boolean;
+  paymentsLoading: boolean;
+  paymentLinesOverviewsLoading: boolean;
   uploading: boolean;
 }
 
@@ -25,7 +26,8 @@ const initialState: PaymentsState = {
   },
   payments: [],
   paymentLinesOverviews: [],
-  loading: false,
+  paymentsLoading: false,
+  paymentLinesOverviewsLoading: false,
   uploading: false,
 };
 
@@ -35,8 +37,8 @@ const initialState: PaymentsState = {
 export class PaymentsStore {
   private readonly _state = signalState<PaymentsState>(initialState);
 
-  public get isLoading() {
-    return this._state.loading;
+  public get paymentsLoading() {
+    return this._state.paymentsLoading;
   }
 
   public get isUploading() {
@@ -82,7 +84,8 @@ export class PaymentsStore {
 
   constructor() {
     effect(() => {
-      patchState(this._state, { loading: this._paymentsResource.isLoading() });
+      patchState(this._state, { paymentsLoading: this._paymentsResource.isLoading() });
+      patchState(this._state, { paymentLinesOverviewsLoading: this._paymentLinesOverviewsResource.isLoading() });
       patchState(this._state, { uploading: this._newPaymentResource.isLoading() });
       patchState(this._state, { payments: this._paymentsResource.value() ?? [] });
       patchState(this._state, { paymentLinesOverviews: this._paymentLinesOverviewsResource.value() ?? [] });

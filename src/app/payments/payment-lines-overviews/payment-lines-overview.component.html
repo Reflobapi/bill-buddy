@@ -2,17 +2,16 @@
   <div class="progress-bar-block">
     <div class="sub-category__first-line">
       <h2 class="name"> {{ paymentLinesOverviewWithName.name }}</h2>
-      <app-financial-value [value]="paymentLinesOverviewWithName.value"></app-financial-value>
+      <app-financial-value [appLineLoading]="loading()" [value]="paymentLinesOverviewWithName.value"></app-financial-value>
     </div>
 
     <div class="sub-category__second-line sub-title">
-      <span> {{ paymentLinesOverviewWithName.percentage | percent }}</span>
+      <span [appLineLoading]="loading()"> {{ paymentLinesOverviewWithName.percentage | percent }}</span>
     </div>
 
-    <app-progress-bar [value]="paymentLinesOverviewWithName.percentage * 100"></app-progress-bar>
+    <app-progress-bar [appLineLoading]="loading()" [value]="paymentLinesOverviewWithName.percentage * 100"></app-progress-bar>
   </div>
 }
-
 <div class="see-more sub-title">
   <span (click)="_seeMore.set(!_seeMore())">
     {{ _seeMore() ? 'Voir moins' : 'Voir plus' }}

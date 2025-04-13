@@ -11,14 +11,16 @@ interface PaymentDetailsState {
   payment: GetPaymentResponse | null;
   paymentLines: readonly GetPaymentLineResponse[];
   paymentLinesOverviews: readonly GetPaymentLinesOverviewResponse[];
-  loading: boolean;
+  paymentLinesLoading: boolean;
+  paymentLinesOverviewsLoading: boolean;
 }
 
 const initialState: PaymentDetailsState = {
   payment: null,
   paymentLines: [],
   paymentLinesOverviews: [],
-  loading: false,
+  paymentLinesLoading: false,
+  paymentLinesOverviewsLoading: false,
 };
 
 @Injectable({
@@ -27,6 +29,10 @@ const initialState: PaymentDetailsState = {
 export class PaymentDetailsStore {
   private readonly _state = signalState<PaymentDetailsState>(initialState);
   private readonly _contextStore = inject(ContextStore);
+
+  public get paymentLinesOverviewsLoading() {
+    return this._state.paymentLinesOverviewsLoading;
+  }
 
   public get paymentLines() {
     return this._state.paymentLines;
@@ -67,7 +73,8 @@ export class PaymentDetailsStore {
 
   constructor() {
     effect(() => {
-      patchState(this._state, { loading: this._paymentLinesResource.isLoading() });
+      patchState(this._state, { paymentLinesLoading: this._paymentLinesResource.isLoading() });
+      patchState(this._state, { paymentLinesOverviewsLoading: this._paymentLinesOverviewsResource.isLoading() });
       patchState(this._state, { paymentLines: this._paymentLinesResource.value() });
       patchState(this._state, { payment: this._paymentResource.value() });
       patchState(this._state, { paymentLinesOverviews: this._paymentLinesOverviewsResource.value() });

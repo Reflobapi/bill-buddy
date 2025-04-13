@@ -4,7 +4,7 @@ import { PaymentItemComponent } from '../payment-item/payment-item.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { ButtonComponent } from '../../lib/button/button.component';
-import { SpinnerComponent } from '../../lib/spinner/spinner.component';
+import { SpinnerComponent } from '../../lib/loading/spinner/spinner.component';
 import { PaymentLinesOverviewComponent } from '../payment-lines-overviews/payment-lines-overview.component';
 
 @Component({

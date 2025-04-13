@@ -1,8 +1,9 @@
 <h1>Tous les paiements</h1>
 
-<app-payment-lines-overviews [paymentLinesOverviews]="_paymentsStore.paymentLinesOverviews()"></app-payment-lines-overviews>
+<app-payment-lines-overviews [loading]="_paymentsStore.isUploading()"
+                             [paymentLinesOverviews]="_paymentsStore.paymentLinesOverviews()"></app-payment-lines-overviews>
 
-@if (_paymentsStore.isLoading()) {
+@if (_paymentsStore.paymentsLoading()) {
   <app-spinner></app-spinner>
 } @else {
   @if (!_paymentsStore.payments().length) {

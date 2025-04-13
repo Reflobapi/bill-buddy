@@ -23,5 +23,6 @@ export class PaymentDetailsComponent {
 
   protected readonly _paymentLines = this._paymentDetailsStore.paymentLines;
   protected readonly _paymentLinesOverviews = this._paymentDetailsStore.paymentLinesOverviews;
+  protected readonly _paymentLinesOverviewsLoading = this._paymentDetailsStore.paymentLinesOverviewsLoading;
   protected readonly _payment = this._paymentDetailsStore.payment;
 }

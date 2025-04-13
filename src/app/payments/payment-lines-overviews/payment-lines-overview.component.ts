@@ -5,6 +5,7 @@ import { ProgressBarComponent } from '../../lib/progress-bar/progress-bar.compon
 import { PercentPipe } from '@angular/common';
 import { GetPaymentLinesOverviewResponse } from '../../interfaces/payment-lines.interfaces';
 import { subCategoryIdTranslationsMap } from '../../trads/categories-trads';
+import { LineLoadingDirective } from '../../lib/loading/line-loading/line-loading.directive';
 
 @Component({
   selector: 'app-payment-lines-overviews',
@@ -15,9 +16,11 @@ import { subCategoryIdTranslationsMap } from '../../trads/categories-trads';
     FinancialValueComponent,
     ProgressBarComponent,
     PercentPipe,
+    LineLoadingDirective,
   ],
 })
 export class PaymentLinesOverviewComponent {
+  public loading = input.required<boolean>();
   public paymentLinesOverviews = input.required<readonly GetPaymentLinesOverviewResponse[]>();
 
   protected readonly _allPaymentLinesOverviewWithName = computed<readonly GetPaymentLinesOverviewWithName[]>(() => {
