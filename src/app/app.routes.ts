@@ -22,4 +22,9 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: '**', // Wildcard route to catch all other paths
+    redirectTo: '', // Redirect to the main page
+    pathMatch: 'full',
+  },
 ];
