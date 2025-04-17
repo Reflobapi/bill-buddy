@@ -3,12 +3,16 @@ input {
 }
 
 .no-data {
+  margin-top: 7rem;
   text-align: center;
 }
 
 .new-payment-info {
-  margin-top: 18rem;
+  text-align: center;
+
+  margin-top: 10rem;
 
   font-size: 0.9em;
+  font-weight: 200;
   color: var(--primary-grey);
 }

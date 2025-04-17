@@ -9,7 +9,7 @@ body { margin: 6px 12px;   font-family: "Inter", "Poppins", "Manrope", sans-seri
 :root {
   @include mat.progress-bar-overrides((
     active-indicator-color: var(--primary-black),
-    track-color: var(--secondary-grey),
+    track-color: var(--tertiary-grey),
     active-indicator-height: 8px,
     track-height: 8px,
     track-shape: 50px,
