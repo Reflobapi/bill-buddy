@@ -54,7 +54,7 @@ export class PaymentsStore {
   }
 
   public set fileToUpload(options: { base64: string | null, filename: string | null }) {
-    patchState(this._state,  {
+    patchState(this._state, {
       fileToUpload: {
         base64: options.base64,
         filename: options.filename,
@@ -72,7 +72,10 @@ export class PaymentsStore {
   });
 
   protected readonly _paymentLinesOverviewsResource = resource({
-    request: () => ({ loggedInUserId: this._authService.loggedInUser(), newPaymentValue: this._newPaymentResource.value() }),
+    request: () => ({
+      loggedInUserId: this._authService.loggedInUser(),
+      newPaymentValue: this._newPaymentResource.value() || this._newPaymentResource.error(),
+    }),
     loader: () => firstValueFrom(this._paymentLinesService.getPaymentLinesOverviews()),
   });
 

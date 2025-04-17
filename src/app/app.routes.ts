@@ -21,6 +21,5 @@ export const routes: Routes = [
         loadComponent: () => import('./payments/payment-details/payment-details.component').then(m => m.PaymentDetailsComponent),
       },
     ],
-    pathMatch: 'full',
   },
 ];
