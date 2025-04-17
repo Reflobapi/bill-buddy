@@ -1,11 +1,32 @@
-<h1>Tous les paiements</h1>
-
-<app-payment-lines-overviews [loading]="_paymentsStore.isUploading()"
-                             [paymentLinesOverviews]="_paymentsStore.paymentLinesOverviews()"></app-payment-lines-overviews>
-
 @if (_paymentsStore.paymentsLoading()) {
-  <app-spinner></app-spinner>
+  <ng-container *ngTemplateOutlet="loading"></ng-container>
 } @else {
+  @if (_paymentsStore.payments().length) {
+    <ng-container *ngTemplateOutlet="dataTemplate"></ng-container>
+  }
+  <ng-container *ngTemplateOutlet="noDataTemplate"></ng-container>
+}
+
+
+<app-button [text]="'Ajouter un paiement'"
+            [floating]="true"
+            [disabled]="_paymentsStore.isUploading()"
+            [loading]="_paymentsStore.isUploading()"
+            (click)="_triggerFileInput()"></app-button>
+
+<input type="file"
+       #fileInput
+       (change)="_onFileSelected($event)"
+       accept="image/*,application/pdf"
+/>
+
+
+<ng-template #dataTemplate>
+  <h2>Tous les paiements</h2>
+
+  <app-payment-lines-overviews [loading]="_paymentsStore.isUploading()"
+                               [paymentLinesOverviews]="_paymentsStore.paymentLinesOverviews()"></app-payment-lines-overviews>
+
   @if (!_paymentsStore.payments().length) {
     <div>
       <span class="sub-title">Aucun paiement trouvé.</span>
@@ -16,16 +37,29 @@
                         [payment]="payment"></app-payment-item>
     }
   }
+</ng-template>
 
-  <input type="file"
-         #fileInput
-         (change)="_onFileSelected($event)"
-         accept="image/*,application/pdf"
-  />
+<ng-template #noDataTemplate>
+  <div class="no-data">
+    <h1>Aucun paiement trouvé</h1>
 
-  <app-button [text]="'Ajouter un paiement'"
-              [floating]="true"
-              [disabled]="_paymentsStore.isUploading()"
-              [loading]="_paymentsStore.isUploading()"
-              (click)="_triggerFileInput()"></app-button>
-}
+    <span class="sub-title">Vous pouvez ajouter un paiement en cliquer sur le bouton "Ajouter un paiement".</span>
+  </div>
+
+  <div class="no-data new-payment-info">
+    <span>Afin d'ajouter un paiement, vous pouvez scanner n'importe quel ticket de caisse. Il sera ensuite analysé et affiché de manière structurée sur l'écran.</span>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="loading">
+    <app-payment-item [payment]="null"></app-payment-item>
+    <app-payment-item [payment]="null"></app-payment-item>
+    <app-payment-item [payment]="null"></app-payment-item>
+    <app-payment-item [payment]="null"></app-payment-item>
+    <app-payment-item [payment]="null"></app-payment-item>
+    <app-payment-item [payment]="null"></app-payment-item>
+    <app-payment-item [payment]="null"></app-payment-item>
+    <app-payment-item [payment]="null"></app-payment-item>
+  </div>
+</ng-template>

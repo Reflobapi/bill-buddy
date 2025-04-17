@@ -1,12 +1,15 @@
-  <div class="list-item">
-    <div class="title">
-      <div class="title__value">
-        <app-financial-value [value]="payment().paymentLinesSum"></app-financial-value>
-      </div>
-      <div class="sub-title">
-        <span>{{ payment().payee }}, le {{ payment().date | date : 'dd/MM/yyyy' }}</span>
-      </div>
+<div [appLineLoading]="!payment()"
+     class="list-item">
+  <div class="title">
+    <div class="title__value">
+      <app-financial-value [value]="payment()?.paymentLinesSum"></app-financial-value>
     </div>
-
-    <mat-icon class="icon">chevron_right</mat-icon>
+    <div class="sub-title">
+      <span>{{ payment()?.payee }}, le {{ payment()?.date | date : 'dd/MM/yyyy' }}</span>
+    </div>
   </div>
+
+  @if (payment()) {
+    <mat-icon class="icon">chevron_right</mat-icon>
+  }
+</div>

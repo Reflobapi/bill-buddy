@@ -1,3 +1,14 @@
 input {
   visibility: hidden;
 }
+
+.no-data {
+  text-align: center;
+}
+
+.new-payment-info {
+  margin-top: 18rem;
+
+  font-size: 0.9em;
+  color: var(--primary-grey);
+}

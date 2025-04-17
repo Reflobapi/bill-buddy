@@ -12,8 +12,11 @@
     <app-progress-bar [appLineLoading]="loading()" [value]="paymentLinesOverviewWithName.percentage * 100"></app-progress-bar>
   </div>
 }
-<div class="see-more sub-title">
-  <span (click)="_seeMore.set(!_seeMore())">
-    {{ _seeMore() ? 'Voir moins' : 'Voir plus' }}
-  </span>
-</div>
+
+@if (_paymentLinesOverviewWithName().length > 0) {
+  <div class="see-more sub-title">
+    <span (click)="_seeMore.set(!_seeMore())">
+      {{ _seeMore() ? 'Voir moins' : 'Voir plus' }}
+    </span>
+  </div>
+}
