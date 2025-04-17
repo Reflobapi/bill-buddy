@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GetPaymentResponse } from '../interfaces/payment.interfaces';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,7 @@ export class PaymentsService {
   }
 
   private _getBaseApiUrlForPayments(paymentId?: number | null): string {
-    const baseUrl: string = 'http://localhost:3003/payments';
+    const baseUrl: string = `${environment.apiUrl}/payments`;
 
     return paymentId ? `${baseUrl}/${paymentId}` : baseUrl;
   }
