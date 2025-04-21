@@ -13,7 +13,7 @@
   </div>
 }
 
-@if (_paymentLinesOverviewWithName().length > 0) {
+@if (_paymentLinesOverviewWithName().length > 3) {
   <div class="see-more sub-title">
     <span (click)="_seeMore.set(!_seeMore())">
       {{ _seeMore() ? 'Voir moins' : 'Voir plus' }}

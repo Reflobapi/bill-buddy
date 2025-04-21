@@ -3,7 +3,7 @@ import { PaymentsService } from '../payments.service';
 import { firstValueFrom } from 'rxjs';
 import { patchState, signalState } from '@ngrx/signals';
 import { GetPaymentLineResponse, GetPaymentLinesOverviewResponse } from '../../interfaces/payment-lines.interfaces';
-import { ContextStore } from '../../context.store';
+import { ContextService } from '../../context.service';
 import { GetPaymentResponse } from '../../interfaces/payment.interfaces';
 import { PaymentLinesService } from '../payment-lines.service';
 
@@ -28,7 +28,7 @@ const initialState: PaymentDetailsState = {
 })
 export class PaymentDetailsStore {
   private readonly _state = signalState<PaymentDetailsState>(initialState);
-  private readonly _contextStore = inject(ContextStore);
+  private readonly _contextService = inject(ContextService);
 
   public get paymentLinesOverviewsLoading() {
     return this._state.paymentLinesOverviewsLoading;
@@ -50,22 +50,21 @@ export class PaymentDetailsStore {
   private readonly _paymentsLinesService = inject(PaymentLinesService);
 
   private readonly _paymentLinesResource = resource({
-    request: () => ({ paymentId: this._contextStore.paymentId() }),
+    request: () => ({ paymentId: this._contextService.paymentId() }),
     loader: (loader) => {
       return firstValueFrom(this._paymentsLinesService.getPaymentLines(loader.request.paymentId));
     },
   });
 
   private readonly _paymentLinesOverviewsResource = resource({
-    request: () => ({ paymentId: this._contextStore.paymentId() }),
+    request: () => ({ paymentId: this._contextService.paymentId() }),
     loader: (loader) => {
       return firstValueFrom(this._paymentsLinesService.getPaymentLinesOverviews(loader.request.paymentId));
     },
   });
 
-
   private readonly _paymentResource = resource({
-    request: () => ({ paymentId: this._contextStore.paymentId() }),
+    request: () => ({ paymentId: this._contextService.paymentId() }),
     loader: (loader) => {
       return firstValueFrom(this._paymentsService.getPayment(loader.request.paymentId));
     },

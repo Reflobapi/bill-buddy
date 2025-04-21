@@ -2,25 +2,32 @@ import { Injectable, Signal } from '@angular/core';
 import { patchState, signalState } from '@ngrx/signals';
 
 interface ContextState {
+  userId: number | null;
   paymentId: number | null;
 }
 
 const initialState: ContextState = {
+  userId: null,
   paymentId: null,
 };
 
 export enum ContextParams {
+  UserId = 'userId',
   PaymentId = 'paymentId',
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class ContextStore {
+export class ContextService {
   private readonly _state = signalState<ContextState>(initialState);
 
   public get paymentId(): Signal<number | null> {
     return this._state.paymentId;
+  }
+
+  public get userId(): Signal<number | null> {
+    return this._state.userId;
   }
 
   public registerContext(contextParam: ContextParams, id: number): void {

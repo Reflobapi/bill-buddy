@@ -1,11 +1,11 @@
 import { GetPaymentResponse } from '../../interfaces/payment.interfaces';
 import { effect, inject, Injectable, resource } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
 import { PaymentsService } from '../payments.service';
 import { firstValueFrom } from 'rxjs';
 import { patchState, signalState } from '@ngrx/signals';
 import { GetPaymentLinesOverviewResponse } from '../../interfaces/payment-lines.interfaces';
 import { PaymentLinesService } from '../payment-lines.service';
+import { ContextService } from '../../context.service';
 
 interface PaymentsState {
   fileToUpload: {
@@ -62,21 +62,20 @@ export class PaymentsStore {
     });
   }
 
-  private readonly _authService = inject(AuthService);
+  private readonly _contextService = inject(ContextService);
   private readonly _paymentsService = inject(PaymentsService);
   private readonly _paymentLinesService = inject(PaymentLinesService);
 
   protected readonly _paymentsResource = resource({
-    request: () => ({ loggedInUserId: this._authService.loggedInUser(), newPaymentValue: this._newPaymentResource.value() }),
+    request: () => ({ loggedInUserId: this._contextService.userId(), newPaymentValue: this._newPaymentResource.value() }),
     loader: () => firstValueFrom(this._paymentsService.getPayments()),
   });
 
   protected readonly _paymentLinesOverviewsResource = resource({
     request: () => ({
-      loggedInUserId: this._authService.loggedInUser(),
-      newPaymentValue: this._newPaymentResource.value() || this._newPaymentResource.error(),
+      loggedInUserId: this._contextService.userId(),
     }),
-    loader: () => firstValueFrom(this._paymentLinesService.getPaymentLinesOverviews()),
+    loader: () => firstValueFrom(this._paymentLinesService.getPaymentLinesOverviews(null)),
   });
 
   protected _newPaymentResource = resource({
@@ -93,5 +92,9 @@ export class PaymentsStore {
       patchState(this._state, { payments: this._paymentsResource.value() ?? [] });
       patchState(this._state, { paymentLinesOverviews: this._paymentLinesOverviewsResource.value() ?? [] });
     });
+
+    if (this._newPaymentResource.value() || this._newPaymentResource.error()) {
+      this._paymentLinesOverviewsResource.reload();
+    }
   }
 }
