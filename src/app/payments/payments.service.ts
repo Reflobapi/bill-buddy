@@ -2,20 +2,23 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GetPaymentResponse } from '../interfaces/payment.interfaces';
-import { environment } from '../../environments/environment';
+import { BaseUrlService } from '../base-url.service';
+import { ContextService } from '../context.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PaymentsService {
   private readonly _httpClient = inject(HttpClient);
+  private readonly _baseUrlService = inject(BaseUrlService);
+  private readonly _contextService = inject(ContextService);
 
   public getPayments(): Observable<GetPaymentResponse[]> {
-    return this._httpClient.get<GetPaymentResponse[]>(this._getBaseApiUrlForPayments());
+    return this._httpClient.get<GetPaymentResponse[]>(this._baseUrlService.getBaseApiUrlForPayments());
   }
 
   public getPayment(paymentId: number | null): Observable<GetPaymentResponse> {
-    return this._httpClient.get<GetPaymentResponse>(this._getBaseApiUrlForPayments(paymentId));
+    return this._httpClient.get<GetPaymentResponse>(this._baseUrlService.getBaseApiUrlForPayments(paymentId));
   }
 
   public createPayment(options: {
@@ -26,12 +29,9 @@ export class PaymentsService {
       throw new Error('Base64 file is required');
     }
 
-    return this._httpClient.post<GetPaymentResponse>(`${this._getBaseApiUrlForPayments()}`,  options);
-  }
-
-  private _getBaseApiUrlForPayments(paymentId?: number | null): string {
-    const baseUrl: string = `${environment.apiUrl}/payments`;
-
-    return paymentId ? `${baseUrl}/${paymentId}` : baseUrl;
+    return this._httpClient.post<GetPaymentResponse>(`${this._baseUrlService.getBaseApiUrlForPayments()}`, {
+      ...options,
+      userId: this._contextService.userId(),
+    });
   }
 }
