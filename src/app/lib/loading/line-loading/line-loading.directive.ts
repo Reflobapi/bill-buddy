@@ -16,7 +16,7 @@ export class LineLoadingDirective implements AfterViewInit {
 
       if (this.appLineLoading()) {
         this._appendLoading();
-        this._removeElFirstChild();
+        this._removeChildren();
       } else {
         this.el.nativeElement.style.color = 'black';
       }
@@ -27,11 +27,15 @@ export class LineLoadingDirective implements AfterViewInit {
     this._viewInitialized.set(true);
   }
 
-  private _removeElFirstChild() {
-    const firstChild = this.el.nativeElement.firstChild;
+  private _removeChildren() {
+    const children = this.el.nativeElement.children;
 
-    if (firstChild) {
-      firstChild.remove();
+    for (let i = children.length - 1; i >= 0; i--) {
+      const child = children[i];
+
+      if (child.className !== 'loading') {
+        this.el.nativeElement.removeChild(child);
+      }
     }
   }
 

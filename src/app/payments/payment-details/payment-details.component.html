@@ -1,18 +1,37 @@
-<h1>Détails du paiement</h1>
-
-<span class="sub-title">{{ _payment()?.payee }}, le {{ _payment()?.date | date : 'dd/MM/yyyy' }}</span>
-
-<div class="total">
-  <h2>Total</h2>
-  <app-financial-value [value]="_payment()?.paymentLinesSum"></app-financial-value>
-</div>
-
-<app-payment-lines-overviews [loading]="_paymentLinesOverviewsLoading()"
-                             [paymentLinesOverviews]="_paymentLinesOverviews()"></app-payment-lines-overviews>
-
-<h1>Détails ligne à ligne</h1>
-
-@for (paymentLine of _paymentLines(); track paymentLine.id) {
-  <app-payment-line [paymentLine]="paymentLine"></app-payment-line>
+@if (_paymentDetailsLoading()) {
+  <ng-container *ngTemplateOutlet="loading"></ng-container>
+} @else {
+  <ng-container *ngTemplateOutlet="content"></ng-container>
 }
 
+<ng-template #content>
+  <div class="header">
+    <h1>Détails du paiement</h1>
+
+    <div class="total">
+      <app-financial-value [value]="_payment()?.paymentLinesSum"></app-financial-value>
+    </div>
+  </div>
+
+  <span class="sub-title">{{ _payment()?.payee }}, le {{ _payment()?.date | date : 'dd/MM/yyyy' }}</span>
+
+  <app-payment-lines-overviews [loading]="_paymentLinesOverviewsLoading()"
+                               [paymentLinesOverviews]="_paymentLinesOverviews()"></app-payment-lines-overviews>
+
+  <h1>Détails ligne à ligne</h1>
+
+  @for (paymentLine of _paymentLines(); track paymentLine.id) {
+    <app-payment-line [paymentLine]="paymentLine"></app-payment-line>
+  }
+</ng-template>
+
+
+<ng-template #loading>
+  <app-payment-item [payment]="null"></app-payment-item>
+
+  <h1>Détails ligne à ligne</h1>
+
+  <app-payment-item [payment]="null"></app-payment-item>
+  <app-payment-item [payment]="null"></app-payment-item>
+  <app-payment-item [payment]="null"></app-payment-item>
+</ng-template>

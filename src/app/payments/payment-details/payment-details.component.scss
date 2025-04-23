@@ -1,6 +1,9 @@
 @use "../../lib/styles/texts" as texts;
 
-
+.header {
+  display: flex;
+  justify-content: space-between;
+}
 
 .total {
   margin: 10px 0;

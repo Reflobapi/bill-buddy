@@ -11,6 +11,7 @@ interface PaymentDetailsState {
   payment: GetPaymentResponse | null;
   paymentLines: readonly GetPaymentLineResponse[];
   paymentLinesOverviews: readonly GetPaymentLinesOverviewResponse[];
+  paymentLoading: boolean;
   paymentLinesLoading: boolean;
   paymentLinesOverviewsLoading: boolean;
 }
@@ -19,6 +20,7 @@ const initialState: PaymentDetailsState = {
   payment: null,
   paymentLines: [],
   paymentLinesOverviews: [],
+  paymentLoading: false,
   paymentLinesLoading: false,
   paymentLinesOverviewsLoading: false,
 };
@@ -44,6 +46,10 @@ export class PaymentDetailsStore {
 
   public get payment() {
     return this._state.payment;
+  }
+
+  public get paymentLoading() {
+    return this._state.paymentLoading;
   }
 
   private readonly _paymentsService = inject(PaymentsService);
@@ -72,11 +78,12 @@ export class PaymentDetailsStore {
 
   constructor() {
     effect(() => {
-      patchState(this._state, { paymentLinesLoading: this._paymentLinesResource.isLoading() });
-      patchState(this._state, { paymentLinesOverviewsLoading: this._paymentLinesOverviewsResource.isLoading() });
-      patchState(this._state, { paymentLines: this._paymentLinesResource.value() });
       patchState(this._state, { payment: this._paymentResource.value() });
+      patchState(this._state, { paymentLines: this._paymentLinesResource.value() });
       patchState(this._state, { paymentLinesOverviews: this._paymentLinesOverviewsResource.value() });
+      patchState(this._state, { paymentLinesLoading: this._paymentLinesResource.isLoading() });
+      patchState(this._state, { paymentLoading: this._paymentResource.isLoading() });
+      patchState(this._state, { paymentLinesOverviewsLoading: this._paymentLinesOverviewsResource.isLoading() });
     });
   }
 }
