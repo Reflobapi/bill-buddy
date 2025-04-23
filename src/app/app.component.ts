@@ -1,7 +1,5 @@
-import { Component, effect, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { AuthService } from './auth/auth.service';
-import { ContextService } from './context.service';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,18 +9,4 @@ import { ContextService } from './context.service';
   ],
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  private readonly _authService = inject(AuthService);
-  private readonly _contextService = inject(ContextService);
-  private readonly _router = inject(Router);
-
-  constructor() {
-    this._authService.login('0602339587');
-
-    effect(() => {
-      if (this._contextService.userId()) {
-        void this._router.navigate(['payments']);
-      }
-    });
-  }
-}
+export class AppComponent {}

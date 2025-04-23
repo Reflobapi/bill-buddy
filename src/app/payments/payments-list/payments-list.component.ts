@@ -11,7 +11,6 @@ import { NgTemplateOutlet } from '@angular/common';
   selector: 'app-payments-list',
   templateUrl: './payments-list.component.html',
   styleUrl: './payments-list.component.scss',
-  providers: [PaymentsStore],
   imports: [
     PaymentItemComponent,
     SharedModule,
