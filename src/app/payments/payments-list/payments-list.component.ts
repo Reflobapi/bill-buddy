@@ -2,10 +2,9 @@ import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { PaymentsStore } from '../store/payments.store';
 import { PaymentItemComponent } from '../payment-item/payment-item.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SharedModule } from '../../shared/shared.module';
 import { ButtonComponent } from '../../lib/button/button.component';
 import { PaymentLinesOverviewComponent } from '../payment-lines-overviews/payment-lines-overview.component';
-import { NgTemplateOutlet } from '@angular/common';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-payments-list',
@@ -13,7 +12,7 @@ import { NgTemplateOutlet } from '@angular/common';
   styleUrl: './payments-list.component.scss',
   imports: [
     PaymentItemComponent,
-    SharedModule,
+    CommonModule,
     ButtonComponent,
     PaymentLinesOverviewComponent,
     NgTemplateOutlet,

@@ -1,12 +1,39 @@
-<div class="authentification-container">
+<div class="flex-center">
   <h1>Authentification</h1>
 </div>
 
-<div class="authentification-container form">
-  <form [formGroup]="_form">
-    <mat-form-field>
-      <input matInput
-             formControlName="phone"/>
-    </mat-form-field>
-  </form>
-</div>
+@if (!_loading()) {
+  <div class="flex-center form">
+    <form [formGroup]="_form">
+      <mat-form-field>
+        <input matInput
+               type="tel"
+               formControlName="phone"/>
+      </mat-form-field>
+    </form>
+  </div>
+}
+
+@if (_loading()) {
+  <div class="flex-center loading">
+    <app-spinner></app-spinner>
+  </div>
+} @else {
+  @if (_creationMode()) {
+    <div class="flex-center">
+      <app-button [disabled]="!_form.valid"
+                  (click)="_createAccount()"
+                  text="Créer un compte"></app-button>
+    </div>
+
+    <div class="flex-center already-registered">
+      <span class="sub-title"
+            (click)="_reverseCreationMode()">Déjà un compte ?</span>
+    </div>
+  } @else {
+    <div class="flex-center">
+      <span class="sub-title"
+            (click)="_reverseCreationMode()">Créer un compte</span>
+    </div>
+  }
+}

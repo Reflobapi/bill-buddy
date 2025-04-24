@@ -88,13 +88,13 @@ export class PaymentsStore {
     effect(() => {
       patchState(this._state, { paymentsLoading: this._paymentsResource.isLoading() });
       patchState(this._state, { paymentLinesOverviewsLoading: this._paymentLinesOverviewsResource.isLoading() });
-      patchState(this._state, { uploading: this._newPaymentResource.isLoading() });
       patchState(this._state, { payments: this._paymentsResource.value() ?? [] });
       patchState(this._state, { paymentLinesOverviews: this._paymentLinesOverviewsResource.value() ?? [] });
-    });
+      patchState(this._state, { uploading: this._newPaymentResource.isLoading() });
 
-    if (this._newPaymentResource.value() || this._newPaymentResource.error()) {
-      this._paymentLinesOverviewsResource.reload();
-    }
+      if (this._newPaymentResource.value() || this._newPaymentResource.error()) {
+        this._paymentLinesOverviewsResource.reload();
+      }
+    });
   }
 }

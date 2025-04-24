@@ -1,12 +1,12 @@
 import { Component, input } from '@angular/core';
 import { GetPaymentLineResponse } from '../../../interfaces/payment-lines.interfaces';
-import { SharedModule } from '../../../shared/shared.module';
 import { FinancialValueComponent } from '../../../lib/financial-value/financial-value.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-payment-line',
   imports: [
-    SharedModule,
+    CommonModule,
     FinancialValueComponent,
   ],
   templateUrl: './payment-line.component.html',

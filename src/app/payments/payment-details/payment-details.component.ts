@@ -1,9 +1,8 @@
 import { Component, computed, inject } from '@angular/core';
 import { PaymentDetailsStore } from '../store/payment-details.store';
 import { PaymentLineComponent } from './payment-line/payment-line.component';
-import { DatePipe, NgTemplateOutlet } from '@angular/common';
+import { CommonModule, DatePipe, NgTemplateOutlet } from '@angular/common';
 import { FinancialValueComponent } from '../../lib/financial-value/financial-value.component';
-import { SharedModule } from '../../shared/shared.module';
 import { PaymentLinesOverviewComponent } from '../payment-lines-overviews/payment-lines-overview.component';
 import { PaymentItemComponent } from '../payment-item/payment-item.component';
 import { LoadingService } from '../../lib/loading/loading.service';
@@ -13,7 +12,7 @@ import { LoadingService } from '../../lib/loading/loading.service';
   imports: [
     PaymentLineComponent,
     FinancialValueComponent,
-    SharedModule,
+    CommonModule,
     DatePipe,
     PaymentLinesOverviewComponent,
     NgTemplateOutlet,

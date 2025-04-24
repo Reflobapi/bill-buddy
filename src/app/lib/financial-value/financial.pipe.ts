@@ -3,6 +3,7 @@ import { CurrencyPipe } from '@angular/common';
 
 @Pipe({
   name: 'financial',
+  standalone: true,
 })
 export class FinancialPipe implements PipeTransform {
   private readonly _currencyPipe = inject(CurrencyPipe);

@@ -1,0 +1,31 @@
+@use '@angular/material' as mat;
+
+@include mat.snack-bar-overrides((
+  supporting-text-weight: 950,
+  supporting-text-line-height: 3.5,
+));
+
+.notification-error {
+  @include mat.snack-bar-overrides((
+    container-color: var(--secondary-red),
+    supporting-text-color: var(--primary-red),
+  ));
+}
+
+
+.notification-success {
+  @include mat.snack-bar-overrides((
+    container-color: var(--secondary-green),
+    supporting-text-color: var(--primary-green),
+  ));
+}
+
+
+.notification-warning {
+  @include mat.snack-bar-overrides((
+    container-color: var(--secondary-yellow),
+    supporting-text-color: var(--primary-yellow),
+  ));
+}
+
+
