@@ -91,10 +91,10 @@ export class PaymentsStore {
       patchState(this._state, { payments: this._paymentsResource.value() ?? [] });
       patchState(this._state, { paymentLinesOverviews: this._paymentLinesOverviewsResource.value() ?? [] });
       patchState(this._state, { uploading: this._newPaymentResource.isLoading() });
-
-      if (this._newPaymentResource.value() || this._newPaymentResource.error()) {
-        this._paymentLinesOverviewsResource.reload();
-      }
     });
+
+    if (this._newPaymentResource.value() || this._newPaymentResource.error()) {
+      this._paymentLinesOverviewsResource.reload();
+    }
   }
 }
