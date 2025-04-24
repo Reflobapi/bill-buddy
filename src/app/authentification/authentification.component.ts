@@ -1,6 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormField } from '@angular/material/form-field';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { AuthService } from './auth.service';
 import { ButtonComponent } from '../lib/button/button.component';
@@ -12,6 +12,7 @@ import { ContextService } from '../context.service';
   imports: [
     ReactiveFormsModule,
     MatFormField,
+    MatLabel,
     MatInput,
     ButtonComponent,
     SpinnerComponent,
