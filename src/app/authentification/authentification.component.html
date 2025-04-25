@@ -3,16 +3,20 @@
 </div>
 
 @if (!_loading()) {
-  <div class="flex-center form">
-    <form [formGroup]="_form">
-      <mat-form-field>
-        <mat-label>Numéros de téléphone</mat-label>
-        <input matInput
-               type="tel"
-               placeholder="Ex: 0601020304"
-               formControlName="phone"/>
-      </mat-form-field>
-    </form>
+  <div class="form">
+    <div class="flex-center">
+      <h2>Numéros de téléphone</h2>
+    </div>
+
+    <div class="flex-center">
+      <form [formGroup]="_form">
+        <mat-form-field>
+          <input matInput
+                 type="tel"
+                 formControlName="phone"/>
+        </mat-form-field>
+      </form>
+    </div>
   </div>
 }
 

@@ -1,11 +1,11 @@
-import { GetPaymentResponse } from '../../interfaces/payment.interfaces';
-import { effect, inject, Injectable, resource } from '@angular/core';
-import { PaymentsService } from '../payments.service';
-import { firstValueFrom } from 'rxjs';
-import { patchState, signalState } from '@ngrx/signals';
-import { GetPaymentLinesOverviewResponse } from '../../interfaces/payment-lines.interfaces';
-import { PaymentLinesService } from '../payment-lines.service';
-import { ContextService } from '../../context.service';
+import {GetPaymentResponse} from '../../interfaces/payment.interfaces';
+import {effect, inject, Injectable, resource} from '@angular/core';
+import {PaymentsService} from '../payments.service';
+import {firstValueFrom} from 'rxjs';
+import {patchState, signalState} from '@ngrx/signals';
+import {GetPaymentLinesOverviewResponse} from '../../interfaces/payment-lines.interfaces';
+import {PaymentLinesService} from '../payment-lines.service';
+import {ContextService} from '../../context.service';
 
 interface PaymentsState {
   fileToUpload: {
@@ -72,9 +72,6 @@ export class PaymentsStore {
   });
 
   protected readonly _paymentLinesOverviewsResource = resource({
-    request: () => ({
-      loggedInUserId: this._contextService.userId(),
-    }),
     loader: () => firstValueFrom(this._paymentLinesService.getPaymentLinesOverviews(null)),
   });
 
@@ -93,8 +90,10 @@ export class PaymentsStore {
       patchState(this._state, { uploading: this._newPaymentResource.isLoading() });
     });
 
-    if (this._newPaymentResource.value() || this._newPaymentResource.error()) {
-      this._paymentLinesOverviewsResource.reload();
-    }
+    effect(() => {
+      if (this._newPaymentResource.value()) {
+        this._paymentLinesOverviewsResource.reload();
+      }
+    });
   }
 }
