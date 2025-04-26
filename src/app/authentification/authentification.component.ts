@@ -1,11 +1,16 @@
-import {Component, effect, inject, signal} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatFormField} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
-import {AuthService} from './auth.service';
-import {ButtonComponent} from '../lib/button/button.component';
-import {SpinnerComponent} from '../lib/loading/spinner/spinner.component';
-import {ContextService} from '../context.service';
+import { Component, effect, inject, signal } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { AuthService } from './auth.service';
+import { ButtonComponent } from '../lib/button/button.component';
+import { SpinnerComponent } from '../lib/loading/spinner/spinner.component';
+import { ContextService } from '../context.service';
 
 @Component({
   selector: 'app-authentification',
@@ -15,7 +20,6 @@ import {ContextService} from '../context.service';
     MatInput,
     ButtonComponent,
     SpinnerComponent,
-
   ],
   templateUrl: './authentification.component.html',
   styleUrl: './authentification.component.scss',
@@ -36,7 +40,7 @@ export class AuthentificationComponent {
   protected readonly _loading = signal<boolean>(false);
 
   constructor() {
-    this._form.valueChanges.subscribe(form => {
+    this._form.valueChanges.subscribe((form) => {
       if (this._creationMode()) {
         return;
       }
@@ -51,7 +55,11 @@ export class AuthentificationComponent {
     });
 
     effect(() => {
-      if (this._contextService.userId()) {
+      console.log(this._contextService.userId());
+      if (
+        this._contextService.userId() ||
+        this._contextService.userId() === null
+      ) {
         this._loading.set(false);
       }
     });
@@ -63,9 +71,9 @@ export class AuthentificationComponent {
 
   protected async _createAccount() {
     this._loading.set(true);
-    this._authService.createAccount(this._form.value.phone!).then(() =>
-      this._loading.set(false),
-    );
+    this._authService
+      .createAccount(this._form.value.phone!)
+      .then(() => this._loading.set(false));
   }
 
   private _isPhoneNumberValid(phoneNumber: string | null): boolean {

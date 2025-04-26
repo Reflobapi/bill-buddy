@@ -1,10 +1,13 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { inject } from '@angular/core';
 import { NotificationsService } from '../lib/notifications/notifications.service';
 import { NotificationType } from '../lib/notifications/interfaces';
 
-export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+export function errorInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> {
   const notificationService = inject(NotificationsService);
 
   return next(req).pipe(
@@ -15,7 +18,8 @@ export function errorInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn)
         type: NotificationType.Error,
       });
 
-      return of();
+      // Rethrow the error to propagate it to the subscriber
+      return throwError(() => error);
     }),
   );
 }

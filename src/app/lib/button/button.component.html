@@ -5,7 +5,9 @@
           mat-fab
           extended>
     <div class="button-content">
-      <!--<app-spinner [theme]="_textColor()"></app-spinner>-->
+      @if (loading()) {
+        <app-spinner theme="white"></app-spinner>
+      }
 
       {{ text() }}
     </div>

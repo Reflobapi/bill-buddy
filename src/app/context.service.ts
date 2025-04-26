@@ -2,12 +2,12 @@ import { Injectable, Signal } from '@angular/core';
 import { patchState, signalState } from '@ngrx/signals';
 
 interface ContextState {
-  userId: number | null;
+  userId: number | null | undefined;
   paymentId: number | null;
 }
 
 const initialState: ContextState = {
-  userId: null,
+  userId: undefined,
   paymentId: null,
 };
 
@@ -26,11 +26,11 @@ export class ContextService {
     return this._state.paymentId;
   }
 
-  public get userId(): Signal<number | null> {
+  public get userId(): Signal<number | null | undefined> {
     return this._state.userId;
   }
 
-  public registerContext(contextParam: ContextParams, id: number): void {
-    patchState(this._state, { [contextParam]: +id });
+  public registerContext(contextParam: ContextParams, id: number | null): void {
+    patchState(this._state, { [contextParam]: id ? +id : null });
   }
 }

@@ -1,12 +1,11 @@
 import { Component, EventEmitter, input, Output } from '@angular/core';
 import { ButtonType } from './interfaces';
 import { MatFabButton } from '@angular/material/button';
+import { SpinnerComponent } from '../loading/spinner/spinner.component';
 
 @Component({
   selector: 'app-button',
-  imports: [
-    MatFabButton,
-  ],
+  imports: [MatFabButton, SpinnerComponent],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
 })
