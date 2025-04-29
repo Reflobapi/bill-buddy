@@ -7,7 +7,7 @@
           extended>
     <div class="button-content">
       @if (loading()) {
-        <app-spinner theme="white"></app-spinner>
+        <app-spinner [theme]="type() === ButtonType.Primary ? 'white' : 'grey'"></app-spinner>
       }
 
       {{ text() }}

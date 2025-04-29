@@ -42,7 +42,7 @@ export class PaymentsService {
     );
   }
 
-  public deletePayment(paymentId: number): Observable<void> {
+  public deletePayment$(paymentId: number): Observable<void> {
     return this._httpClient.delete<void>(
       this._baseUrlService.getBaseApiUrlForPayments(paymentId),
     );

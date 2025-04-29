@@ -1,6 +1,6 @@
-import { effect, inject, Injectable, resource } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { PaymentsService } from '../payments.service';
-import { firstValueFrom } from 'rxjs';
+import { take } from 'rxjs';
 import { patchState, signalState } from '@ngrx/signals';
 import {
   GetPaymentLineResponse,
@@ -11,7 +11,7 @@ import { GetPaymentResponse } from '../../interfaces/payment.interfaces';
 import { PaymentLinesService } from '../payment-lines.service';
 
 interface PaymentDetailsState {
-  payment: GetPaymentResponse | null;
+  payment: GetPaymentResponse | undefined | null;
   paymentLines: readonly GetPaymentLineResponse[];
   paymentLinesOverviews: readonly GetPaymentLinesOverviewResponse[];
   paymentLoading: boolean;
@@ -20,7 +20,7 @@ interface PaymentDetailsState {
 }
 
 const initialState: PaymentDetailsState = {
-  payment: null,
+  payment: undefined,
   paymentLines: [],
   paymentLinesOverviews: [],
   paymentLoading: false,
@@ -56,54 +56,85 @@ export class PaymentDetailsStore {
   private readonly _paymentsService = inject(PaymentsService);
   private readonly _paymentsLinesService = inject(PaymentLinesService);
 
-  private readonly _paymentLinesResource = resource({
-    request: () => ({ paymentId: this._contextService.paymentId() }),
-    loader: (loader) => {
-      return firstValueFrom(
-        this._paymentsLinesService.getPaymentLines(loader.request.paymentId),
-      );
-    },
-  });
-
-  private readonly _paymentLinesOverviewsResource = resource({
-    request: () => ({ paymentId: this._contextService.paymentId() }),
-    loader: (loader) => {
-      return firstValueFrom(
-        this._paymentsLinesService.getPaymentLinesOverviews(
-          loader.request.paymentId,
-        ),
-      );
-    },
-  });
-
-  private readonly _paymentResource = resource({
-    request: () => ({ paymentId: this._contextService.paymentId() }),
-    loader: (loader) => {
-      return firstValueFrom(
-        this._paymentsService.getPayment$(loader.request.paymentId),
-      );
-    },
-  });
-
-  constructor() {
-    effect(() => {
-      patchState(this._state, { payment: this._paymentResource.value() });
-      patchState(this._state, {
-        paymentLines: this._paymentLinesResource.value(),
-      });
-      patchState(this._state, {
-        paymentLinesOverviews: this._paymentLinesOverviewsResource.value(),
-      });
-      patchState(this._state, {
-        paymentLinesLoading: this._paymentLinesResource.isLoading(),
-      });
-      patchState(this._state, {
-        paymentLoading: this._paymentResource.isLoading(),
-      });
-      patchState(this._state, {
-        paymentLinesOverviewsLoading:
-          this._paymentLinesOverviewsResource.isLoading(),
-      });
+  public getPaymentLines(): void {
+    patchState(this._state, {
+      paymentLinesLoading: true,
     });
+
+    this._paymentsLinesService
+      .getPaymentLines(this._contextService.paymentId())
+      .pipe(take(1))
+      .subscribe({
+        next: (paymentLines) => {
+          patchState(this._state, {
+            paymentLines,
+            paymentLinesLoading: false,
+          });
+        },
+        error: () => {
+          patchState(this._state, {
+            paymentLinesLoading: false,
+          });
+        },
+      });
+  }
+
+  public getPaymentLinesOverviews(): void {
+    patchState(this._state, {
+      paymentLinesOverviewsLoading: true,
+    });
+
+    this._paymentsLinesService
+      .getPaymentLinesOverviews(this._contextService.paymentId())
+      .pipe(take(1))
+      .subscribe({
+        next: (paymentLinesOverviews) => {
+          patchState(this._state, {
+            paymentLinesOverviews,
+            paymentLinesOverviewsLoading: false,
+          });
+        },
+        error: () => {
+          patchState(this._state, {
+            paymentLinesOverviewsLoading: false,
+          });
+        },
+      });
+  }
+
+  public getPayment(): void {
+    patchState(this._state, {
+      paymentLoading: true,
+    });
+
+    this._paymentsService
+      .getPayment$(this._contextService.paymentId())
+      .pipe(take(1))
+      .subscribe({
+        next: (payment) => {
+          patchState(this._state, {
+            payment,
+            paymentLoading: false,
+          });
+        },
+        error: () => {
+          patchState(this._state, {
+            paymentLoading: false,
+          });
+        },
+      });
+  }
+
+  public deletePayment$(paymentId: number): void {
+    this._paymentsService
+      .deletePayment$(paymentId)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          patchState(this._state, {
+            payment: null,
+          });
+        },
+      });
   }
 }

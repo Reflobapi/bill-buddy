@@ -55,7 +55,6 @@ export class AuthentificationComponent {
     });
 
     effect(() => {
-      console.log(this._contextService.userId());
       if (
         this._contextService.userId() ||
         this._contextService.userId() === null

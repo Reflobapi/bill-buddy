@@ -1,4 +1,10 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { PaymentsStore } from '../store/payments.store';
 import { PaymentItemComponent } from '../payment-item/payment-item.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,13 +25,13 @@ import { CommonModule, NgTemplateOutlet } from '@angular/common';
   ],
   providers: [PaymentsStore],
 })
-export class PaymentsListComponent {
+export class PaymentsListComponent implements OnInit {
   private readonly _router = inject(Router);
   private readonly _activatedRoute = inject(ActivatedRoute);
 
   protected readonly _paymentsStore = inject(PaymentsStore);
 
-  constructor() {
+  public ngOnInit() {
     this._paymentsStore.getPayments();
     this._paymentsStore.getPaymentLinesOverviews();
   }

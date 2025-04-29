@@ -26,4 +26,6 @@ export class ButtonComponent {
 
     this.click.emit();
   }
+
+  protected readonly ButtonType = ButtonType;
 }

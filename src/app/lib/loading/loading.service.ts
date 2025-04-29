@@ -6,12 +6,12 @@ import { interval, Observable, take } from 'rxjs';
   providedIn: 'root',
 })
 export class LoadingService {
-  private getLoadingSignal(): Observable<number | undefined> {
+  public getLoadingObservable$(): Observable<number | undefined> {
     return interval(700).pipe(take(1));
   }
 
   public fakeLoading(): Signal<boolean> {
-    const loadingSignal = toSignal(this.getLoadingSignal());
+    const loadingSignal = toSignal(this.getLoadingObservable$());
     return computed(() => {
       const loading = loadingSignal();
       return loading === undefined;
