@@ -40,20 +40,6 @@ export class AuthentificationComponent {
   protected readonly _loading = signal<boolean>(false);
 
   constructor() {
-    this._form.valueChanges.subscribe((form) => {
-      if (this._creationMode()) {
-        return;
-      }
-
-      if (!form.phone) {
-        return;
-      }
-
-      if (this._isPhoneNumberValid(form.phone)) {
-        this._onPhoneNumberValid(form.phone);
-      }
-    });
-
     effect(() => {
       if (
         this._contextService.userId() ||
@@ -75,18 +61,9 @@ export class AuthentificationComponent {
       .then(() => this._loading.set(false));
   }
 
-  private _isPhoneNumberValid(phoneNumber: string | null): boolean {
-    if (!phoneNumber) {
-      return false;
-    }
-
-    const cleanPhone = phoneNumber.replace(/\D/g, '');
-    return /^\d{10}$/.test(cleanPhone);
-  }
-
-  private _onPhoneNumberValid(phoneNumber: string) {
+  protected _login() {
     this._loading.set(true);
 
-    this._authService.login(phoneNumber);
+    this._authService.login(this._form.value.phone!);
   }
 }

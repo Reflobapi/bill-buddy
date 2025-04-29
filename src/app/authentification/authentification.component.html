@@ -2,44 +2,43 @@
   <h1>Authentification</h1>
 </div>
 
-@if (!_loading()) {
-  <div class="form">
-    <div class="flex-center">
-      <h2>Numéros de téléphone</h2>
-    </div>
-
-    <div class="flex-center">
-      <form [formGroup]="_form">
-        <mat-form-field>
-          <input matInput
-                 type="tel"
-                 formControlName="phone"/>
-        </mat-form-field>
-      </form>
-    </div>
+<div class="form">
+  <div class="flex-center">
+    <h2>Numéros de téléphone</h2>
   </div>
-}
 
-@if (_loading()) {
-  <div class="flex-center loading">
-    <app-spinner></app-spinner>
+  <div class="flex-center">
+    <form [formGroup]="_form">
+      <mat-form-field>
+        <input matInput
+               type="tel"
+               formControlName="phone"/>
+      </mat-form-field>
+    </form>
   </div>
-} @else {
-  @if (_creationMode()) {
-    <div class="flex-center">
-      <app-button [disabled]="!_form.valid"
-                  (click)="_createAccount()"
-                  text="Créer un compte"></app-button>
-    </div>
+</div>
 
-    <div class="flex-center already-registered">
+@if (_creationMode()) {
+  <div class="flex-center">
+    <app-button [disabled]="!_form.valid"
+                (click)="_createAccount()"
+                text="Créer un compte"></app-button>
+  </div>
+
+  <div class="flex-center already-registered">
       <span class="sub-title"
             (click)="_reverseCreationMode()">Déjà un compte ?</span>
-    </div>
-  } @else {
-    <div class="flex-center">
+  </div>
+} @else {
+  <div class="flex-center">
+    <app-button [disabled]="!_form.valid || _loading()"
+                [loading]="_loading()"
+                (click)="_login()"
+                text="Connexion"></app-button>
+  </div>
+
+  <div class="flex-center already-registered">
       <span class="sub-title"
             (click)="_reverseCreationMode()">Créer un compte</span>
-    </div>
-  }
+  </div>
 }
