@@ -1,17 +1,12 @@
-import {GetPaymentResponse} from '../../interfaces/payment.interfaces';
-import {effect, inject, Injectable, resource} from '@angular/core';
-import {PaymentsService} from '../payments.service';
-import {firstValueFrom} from 'rxjs';
-import {patchState, signalState} from '@ngrx/signals';
-import {GetPaymentLinesOverviewResponse} from '../../interfaces/payment-lines.interfaces';
-import {PaymentLinesService} from '../payment-lines.service';
-import {ContextService} from '../../context.service';
+import { GetPaymentResponse } from '../../interfaces/payment.interfaces';
+import { inject, Injectable } from '@angular/core';
+import { PaymentsService } from '../payments.service';
+import { catchError, of, take } from 'rxjs';
+import { patchState, signalState } from '@ngrx/signals';
+import { GetPaymentLinesOverviewResponse } from '../../interfaces/payment-lines.interfaces';
+import { PaymentLinesService } from '../payment-lines.service';
 
 interface PaymentsState {
-  fileToUpload: {
-    base64: string | null,
-    filename: string | null,
-  };
   payments: GetPaymentResponse[];
   paymentLinesOverviews: readonly GetPaymentLinesOverviewResponse[];
   paymentsLoading: boolean;
@@ -20,10 +15,6 @@ interface PaymentsState {
 }
 
 const initialState: PaymentsState = {
-  fileToUpload: {
-    base64: null,
-    filename: null,
-  },
   payments: [],
   paymentLinesOverviews: [],
   paymentsLoading: false,
@@ -31,9 +22,7 @@ const initialState: PaymentsState = {
   uploading: false,
 };
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class PaymentsStore {
   private readonly _state = signalState<PaymentsState>(initialState);
 
@@ -53,47 +42,94 @@ export class PaymentsStore {
     return this._state.paymentLinesOverviews;
   }
 
-  public set fileToUpload(options: { base64: string | null, filename: string | null }) {
-    patchState(this._state, {
-      fileToUpload: {
-        base64: options.base64,
-        filename: options.filename,
-      },
-    });
-  }
-
-  private readonly _contextService = inject(ContextService);
   private readonly _paymentsService = inject(PaymentsService);
   private readonly _paymentLinesService = inject(PaymentLinesService);
 
-  protected readonly _paymentsResource = resource({
-    request: () => ({ loggedInUserId: this._contextService.userId(), newPaymentValue: this._newPaymentResource.value() }),
-    loader: () => firstValueFrom(this._paymentsService.getPayments()),
-  });
-
-  protected readonly _paymentLinesOverviewsResource = resource({
-    loader: () => firstValueFrom(this._paymentLinesService.getPaymentLinesOverviews(null)),
-  });
-
-  protected _newPaymentResource = resource({
-    request: () => ({ fileToUpload: this._state.fileToUpload() }),
-    loader: (resourceLoader) =>
-      firstValueFrom(this._paymentsService.createPayment(resourceLoader.request.fileToUpload)),
-  });
-
-  constructor() {
-    effect(() => {
-      patchState(this._state, { paymentsLoading: this._paymentsResource.isLoading() });
-      patchState(this._state, { paymentLinesOverviewsLoading: this._paymentLinesOverviewsResource.isLoading() });
-      patchState(this._state, { payments: this._paymentsResource.value() ?? [] });
-      patchState(this._state, { paymentLinesOverviews: this._paymentLinesOverviewsResource.value() ?? [] });
-      patchState(this._state, { uploading: this._newPaymentResource.isLoading() });
+  public getPayments(): void {
+    patchState(this._state, {
+      paymentsLoading: true,
     });
 
-    effect(() => {
-      if (this._newPaymentResource.value()) {
-        this._paymentLinesOverviewsResource.reload();
-      }
+    this._paymentsService
+      .getPayments$()
+      .pipe(
+        catchError(() => {
+          patchState(this._state, {
+            paymentsLoading: false,
+          });
+
+          return of([]);
+        }),
+        take(1),
+      )
+      .subscribe((payments) => {
+        patchState(this._state, {
+          payments,
+          paymentsLoading: false,
+        });
+      });
+  }
+
+  public getPaymentLinesOverviews(): void {
+    patchState(this._state, {
+      paymentLinesOverviewsLoading: true,
     });
+
+    this._paymentLinesService
+      .getPaymentLinesOverviews(null)
+      .pipe(
+        catchError(() => {
+          patchState(this._state, {
+            paymentLinesOverviewsLoading: false,
+          });
+
+          return of([]);
+        }),
+        take(1),
+      )
+      .subscribe((paymentLinesOverviews) => {
+        patchState(this._state, {
+          paymentLinesOverviews,
+          paymentLinesOverviewsLoading: false,
+        });
+      });
+  }
+
+  public uploadFile(
+    fileToUpload: { base64: string | null; filename: string | null } | null,
+  ): void {
+    if (!fileToUpload) {
+      return;
+    }
+
+    patchState(this._state, {
+      uploading: true,
+    });
+
+    this._paymentsService
+      .createPayment$({
+        base64: fileToUpload.base64,
+        filename: fileToUpload.filename,
+      })
+      .pipe(
+        catchError(() => {
+          patchState(this._state, {
+            uploading: false,
+          });
+
+          return of(null);
+        }),
+        take(1),
+      )
+      .subscribe((response) => {
+        if (response) {
+          this.getPayments();
+          this.getPaymentLinesOverviews();
+
+          patchState(this._state, {
+            uploading: false,
+          });
+        }
+      });
   }
 }

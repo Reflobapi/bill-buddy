@@ -1,4 +1,5 @@
-<div>
+<div [class]="type()"
+     [class.full-width]="fullWidth()">
   <button [class.floating]="floating()"
           (click)="_click($event)"
           [disabled]="disabled()"

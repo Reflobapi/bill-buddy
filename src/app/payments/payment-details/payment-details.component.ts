@@ -6,6 +6,8 @@ import { FinancialValueComponent } from '../../lib/financial-value/financial-val
 import { PaymentLinesOverviewComponent } from '../payment-lines-overviews/payment-lines-overview.component';
 import { PaymentItemComponent } from '../payment-item/payment-item.component';
 import { LoadingService } from '../../lib/loading/loading.service';
+import { ButtonComponent } from '../../lib/button/button.component';
+import { ButtonType } from '../../lib/button/interfaces';
 
 @Component({
   selector: 'app-payment-details',
@@ -17,7 +19,9 @@ import { LoadingService } from '../../lib/loading/loading.service';
     PaymentLinesOverviewComponent,
     NgTemplateOutlet,
     PaymentItemComponent,
+    ButtonComponent,
   ],
+  providers: [PaymentDetailsStore],
   templateUrl: './payment-details.component.html',
   styleUrl: './payment-details.component.scss',
 })
@@ -25,15 +29,23 @@ export class PaymentDetailsComponent {
   private readonly _paymentDetailsStore = inject(PaymentDetailsStore);
   private readonly _loadingService = inject(LoadingService);
 
-  private readonly fakeLoadingIntervalEnded = this._loadingService.fakeLoading();
+  private readonly fakeLoadingIntervalEnded =
+    this._loadingService.fakeLoading();
 
   protected readonly _paymentLines = this._paymentDetailsStore.paymentLines;
-  protected readonly _paymentLinesOverviews = this._paymentDetailsStore.paymentLinesOverviews;
-  protected readonly _paymentLinesOverviewsLoading = this._paymentDetailsStore.paymentLinesOverviewsLoading;
+  protected readonly _paymentLinesOverviews =
+    this._paymentDetailsStore.paymentLinesOverviews;
+  protected readonly _paymentLinesOverviewsLoading =
+    this._paymentDetailsStore.paymentLinesOverviewsLoading;
   protected readonly _payment = this._paymentDetailsStore.payment;
   protected readonly _paymentLoading = this._paymentDetailsStore.paymentLoading;
 
   protected readonly _paymentDetailsLoading = computed(() => {
-    return this._paymentLoading() || this._paymentLinesOverviewsLoading() || this.fakeLoadingIntervalEnded();
+    return (
+      this._paymentLoading() ||
+      this._paymentLinesOverviewsLoading() ||
+      this.fakeLoadingIntervalEnded()
+    );
   });
+  protected readonly ButtonType = ButtonType;
 }

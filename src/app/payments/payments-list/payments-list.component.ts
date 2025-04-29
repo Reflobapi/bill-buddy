@@ -17,12 +17,18 @@ import { CommonModule, NgTemplateOutlet } from '@angular/common';
     PaymentLinesOverviewComponent,
     NgTemplateOutlet,
   ],
+  providers: [PaymentsStore],
 })
 export class PaymentsListComponent {
   private readonly _router = inject(Router);
   private readonly _activatedRoute = inject(ActivatedRoute);
 
   protected readonly _paymentsStore = inject(PaymentsStore);
+
+  constructor() {
+    this._paymentsStore.getPayments();
+    this._paymentsStore.getPaymentLinesOverviews();
+  }
 
   protected _navigateToPaymentDetails(paymentId: number | undefined): void {
     if (!paymentId) {
@@ -37,11 +43,11 @@ export class PaymentsListComponent {
   protected _onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this._convertFileToBase64(file).then(base64String => {
-        this._paymentsStore.fileToUpload = {
+      this._convertFileToBase64(file).then((base64String) => {
+        this._paymentsStore.uploadFile({
           base64: base64String,
           filename: file.name,
-        };
+        });
       });
     }
   }

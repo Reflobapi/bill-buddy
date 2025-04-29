@@ -1,27 +1,52 @@
 @use '@angular/material' as mat;
 
 :host {
-  display: inline-block;
 
-  @include mat.fab-overrides((
-    container-color: var(--primary-black),
-  ));
+  .full-width {
+    button {
+      width: 100%;
+    }
+  }
 
-  color: var(--primary-white);
-  font-weight: 600;
+  .primary {
+    @include mat.fab-overrides((
+      container-color: var(--primary-black),
+    ));
+
+    button:disabled {
+      background-color: var(--primary-grey);
+    }
+
+    color: var(--primary-white);
+    font-weight: 600;
+  }
+
+  .secondary {
+    @include mat.fab-overrides((
+      container-color: transparent, // No filled background
+    ));
+
+    button {
+      border: 1px solid var(--primary-black); // Add a black border
+      color: var(--primary-black); // Black text color
+      font-weight: 600;
+
+      &:disabled {
+        border-color: var(--primary-grey);
+        color: var(--primary-grey);
+      }
+    }
+  }
+
 
   button {
-    border-radius: 26px;
+    border-radius: 10px;
   }
 
   .floating {
     position: fixed;
     bottom: 16px;
     right: 16px;
-  }
-
-  button:disabled {
-    background-color: var(--primary-grey);
   }
 
   .button-content {

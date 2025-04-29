@@ -3,8 +3,10 @@
 @import 'app/lib/styles/colors';
 @import 'app/lib/styles/texts';
 
-html, body { height: 100%; }
-body { margin: 6px 12px;   font-family: "Inter", "Poppins", "Manrope", sans-serif;}
+body {
+  margin: 6px 12px;
+  font-family: "Inter", "Poppins", "Manrope", sans-serif;
+}
 
 :root {
   @include mat.progress-bar-overrides((

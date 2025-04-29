@@ -16,9 +16,10 @@ export class ButtonComponent {
   public text = input<string>();
   public icon = input<string>();
   public floating = input<boolean>();
-  public loading = input<boolean>();
-  public disabled = input<boolean>();
-  public type = input<ButtonType>();
+  public fullWidth = input<boolean>(false);
+  public loading = input<boolean>(false);
+  public disabled = input<boolean>(false);
+  public type = input<ButtonType>(ButtonType.Primary);
 
   protected _click(event: Event): void {
     event.stopPropagation();

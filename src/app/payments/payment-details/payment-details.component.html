@@ -13,6 +13,12 @@
     </h1>
   </div>
 
+  <div class="delete-button">
+    <app-button text="Supprimer le paiement"
+                [type]="ButtonType.Secondary"
+                [fullWidth]="true"></app-button>
+  </div>
+
   <span class="sub-title">{{ _payment()?.payee }}, le {{ _payment()?.date | date : 'dd/MM/yyyy' }}</span>
 
   <app-payment-lines-overviews [loading]="_paymentLinesOverviewsLoading()"
