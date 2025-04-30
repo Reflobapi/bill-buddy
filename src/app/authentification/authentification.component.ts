@@ -9,18 +9,11 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { AuthService } from './auth.service';
 import { ButtonComponent } from '../lib/button/button.component';
-import { SpinnerComponent } from '../lib/loading/spinner/spinner.component';
 import { ContextService } from '../context.service';
 
 @Component({
   selector: 'app-authentification',
-  imports: [
-    ReactiveFormsModule,
-    MatFormField,
-    MatInput,
-    ButtonComponent,
-    SpinnerComponent,
-  ],
+  imports: [ReactiveFormsModule, MatFormField, MatInput, ButtonComponent],
   templateUrl: './authentification.component.html',
   styleUrl: './authentification.component.scss',
 })
@@ -43,7 +36,7 @@ export class AuthentificationComponent {
     effect(() => {
       if (
         this._contextService.userId() ||
-        this._contextService.userId() === null:
+        this._contextService.userId() === null
       ) {
         this._loading.set(false);
       }
