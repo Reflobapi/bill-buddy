@@ -62,15 +62,12 @@ export class DoughnutComponent implements AfterViewInit {
       },
       options: {
         cutout: '70%',
+        maintainAspectRatio: false,
         layout: {
           padding: {
-            top: 30,
-            right: 30,
-            bottom: 30,
-            left: 0,
+            right: 40,
           },
         },
-        maintainAspectRatio: false,
         plugins: {
           legend: {
             position: 'right',
