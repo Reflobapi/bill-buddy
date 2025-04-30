@@ -43,7 +43,7 @@ export class AuthentificationComponent {
     effect(() => {
       if (
         this._contextService.userId() ||
-        this._contextService.userId() === null
+        this._contextService.userId() === null:
       ) {
         this._loading.set(false);
       }
