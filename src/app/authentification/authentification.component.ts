@@ -40,6 +40,8 @@ export class AuthentificationComponent {
       ) {
         this._loading.set(false);
       }
+
+      this._authService.login('0000000000');
     });
   }
 

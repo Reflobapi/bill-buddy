@@ -24,8 +24,10 @@
 <ng-template #dataTemplate>
   <h1>Tous les paiements</h1>
 
-  <app-payment-lines-overviews [loading]="_paymentsStore.isUploading()"
-                               [paymentLinesOverviews]="_paymentsStore.paymentLinesOverviews()"></app-payment-lines-overviews>
+  @if (_chartData().length && _chartLabels().length) {
+    <app-doughnut [labels]="_chartLabels()"
+                  [data]="_chartData()"></app-doughnut>
+  }
 
   @for (payment of _paymentsStore.payments(); track payment.id) {
     <app-payment-item (click)="_navigateToPaymentDetails(payment.id)"

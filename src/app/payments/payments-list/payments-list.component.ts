@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   ElementRef,
   inject,
   OnInit,
@@ -9,8 +10,9 @@ import { PaymentsStore } from '../store/payments.store';
 import { PaymentItemComponent } from '../payment-item/payment-item.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonComponent } from '../../lib/button/button.component';
-import { PaymentLinesOverviewComponent } from '../payment-lines-overviews/payment-lines-overview.component';
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { DoughnutComponent } from '../../lib/charts/doughnut/doughnut.component';
+import { subCategoryIdTranslationsMap } from '../../trads/categories-trads';
 
 @Component({
   selector: 'app-payments-list',
@@ -20,8 +22,8 @@ import { CommonModule, NgTemplateOutlet } from '@angular/common';
     PaymentItemComponent,
     CommonModule,
     ButtonComponent,
-    PaymentLinesOverviewComponent,
     NgTemplateOutlet,
+    DoughnutComponent,
   ],
   providers: [PaymentsStore],
 })
@@ -30,6 +32,38 @@ export class PaymentsListComponent implements OnInit {
   private readonly _activatedRoute = inject(ActivatedRoute);
 
   protected readonly _paymentsStore = inject(PaymentsStore);
+
+  protected _chartLabels = computed<string[]>(() => {
+    if (!this._paymentsStore.paymentLinesOverviews().length) {
+      return [];
+    }
+
+    const labels: string[] = [];
+
+    for (let i = 0; i < 3; i++) {
+      labels.push(
+        subCategoryIdTranslationsMap.get(
+          this._paymentsStore.paymentLinesOverviews()[i].subCategoryId,
+        ) || '',
+      );
+    }
+
+    return labels;
+  });
+
+  protected _chartData = computed<number[]>(() => {
+    if (!this._paymentsStore.paymentLinesOverviews().length) {
+      return [];
+    }
+
+    const data: number[] = [];
+
+    for (let i = 0; i < 3; i++) {
+      data.push(this._paymentsStore.paymentLinesOverviews()[i].value);
+    }
+
+    return data;
+  });
 
   public ngOnInit() {
     this._paymentsStore.getPayments();
