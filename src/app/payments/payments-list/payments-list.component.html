@@ -25,10 +25,11 @@
   <h1>Tous les paiements</h1>
 
   @if (_chartData().length && _chartLabels().length) {
-    <div class="doughnut-container">
+    <app-card [title]="_title()">
       <app-doughnut [labels]="_chartLabels()"
                     [data]="_chartData()"></app-doughnut>
-    </div>
+    </app-card>
+
   }
 
   @for (payment of _paymentsStore.payments(); track payment.id) {

@@ -1,0 +1,18 @@
+<div class="card">
+  @if (title() || rightTitle()) {
+
+    <div class="card-header">
+      @if (title()) {
+        <h2>{{ title() }}</h2>
+      }
+
+      @if (rightTitle()) {
+        <h2>{{ rightTitle() }}</h2>
+      }
+    </div>
+  }
+
+  <div class="card-body">
+    <ng-content></ng-content>
+  </div>
+</div>

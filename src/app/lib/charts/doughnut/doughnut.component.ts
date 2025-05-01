@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   ElementRef,
+  inject,
   input,
   signal,
   ViewChild,
@@ -15,17 +16,31 @@ import {
   Legend,
   Tooltip,
 } from 'chart.js';
+import { FinancialPipe } from '../../financial-value/financial.pipe';
+import { CurrencyPipe } from '@angular/common';
 
 Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
+
+const backgroundColors: string[] = [
+  '#262626',
+  '#505050',
+  '#7a7a7a',
+  '#a3a3a3',
+  '#cdcdcd',
+  '#e2e2e2',
+];
 
 @Component({
   selector: 'app-doughnut',
   templateUrl: './doughnut.component.html',
   styleUrl: './doughnut.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [FinancialPipe, CurrencyPipe],
 })
 export class DoughnutComponent implements AfterViewInit {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
+
+  private readonly _financialPipe = inject(FinancialPipe);
 
   public labels = input.required<string[]>();
   public data = input.required<number[]>();
@@ -48,14 +63,7 @@ export class DoughnutComponent implements AfterViewInit {
         datasets: [
           {
             data: this.data(),
-            backgroundColor: [
-              '#262626',
-              '#505050',
-              '#7a7a7a',
-              '#a3a3a3',
-              '#cdcdcd',
-              '#e2e2e2',
-            ],
+            backgroundColor: backgroundColors,
             hoverOffset: 4,
           },
         ],
@@ -78,7 +86,7 @@ export class DoughnutComponent implements AfterViewInit {
               boxHeight: 15,
               font: {
                 size: 16,
-                family: 'Arial',
+                family: 'Inter',
                 weight: 'bold',
               },
             },

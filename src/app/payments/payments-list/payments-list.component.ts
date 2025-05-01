@@ -10,9 +10,11 @@ import { PaymentsStore } from '../store/payments.store';
 import { PaymentItemComponent } from '../payment-item/payment-item.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonComponent } from '../../lib/button/button.component';
-import { CommonModule, NgTemplateOutlet } from '@angular/common';
+import { CommonModule, CurrencyPipe, NgTemplateOutlet } from '@angular/common';
 import { DoughnutComponent } from '../../lib/charts/doughnut/doughnut.component';
 import { subCategoryIdTranslationsMap } from '../../trads/categories-trads';
+import { CardComponent } from '../../lib/card/card.component';
+import { FinancialPipe } from '../../lib/financial-value/financial.pipe';
 
 @Component({
   selector: 'app-payments-list',
@@ -24,14 +26,30 @@ import { subCategoryIdTranslationsMap } from '../../trads/categories-trads';
     ButtonComponent,
     NgTemplateOutlet,
     DoughnutComponent,
+    CardComponent,
   ],
-  providers: [PaymentsStore],
+  providers: [PaymentsStore, FinancialPipe, CurrencyPipe],
 })
 export class PaymentsListComponent implements OnInit {
   private readonly _router = inject(Router);
   private readonly _activatedRoute = inject(ActivatedRoute);
+  private readonly _financialPipe = inject(FinancialPipe);
 
   protected readonly _paymentsStore = inject(PaymentsStore);
+
+  protected readonly _title = computed<string>(() => {
+    if (!this._paymentsStore.paymentLinesOverviews().length) {
+      return '';
+    }
+
+    const total = this._paymentsStore
+      .paymentLinesOverviews()
+      .reduce((acc, curr) => {
+        return acc + curr.value;
+      }, 0);
+
+    return this._financialPipe.transform(total);
+  });
 
   protected _chartLabels = computed<string[]>(() => {
     if (!this._paymentsStore.paymentLinesOverviews().length) {

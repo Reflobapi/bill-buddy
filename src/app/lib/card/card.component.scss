@@ -1,0 +1,23 @@
+.card {
+  margin: 6px 0 6px 0;
+  background-color: var(--quaternary-grey);
+
+  padding-left: 12px;
+  padding-right: 12px;
+
+  border-radius: 10px;
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 6px;
+    padding-bottom: 6px;
+
+    border-bottom: 1px solid var(--primary-white);
+  }
+
+  &-body {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
